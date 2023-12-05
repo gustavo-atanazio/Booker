@@ -1,0 +1,21 @@
+@import '../../styles/variables';
+
+.home {
+    text-align: center;
+
+    & h2 {
+        color: $orange;
+    }
+
+    &__container {
+        display: flex;
+        height: 100vh;
+        padding: 1.5rem;
+        gap: 2rem;
+    
+        @media (min-width: 992px) {
+            padding: 5rem;
+            gap: 5rem;
+        }
+    }
+}
