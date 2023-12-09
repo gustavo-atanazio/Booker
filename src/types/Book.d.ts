@@ -1,7 +1,7 @@
 import { Tag } from './Tag';
 
 interface Book {
-    img: File | null
+    img: File | undefined
     title: string
     author: string
     tags: Tag[]
