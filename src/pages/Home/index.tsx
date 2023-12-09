@@ -3,7 +3,7 @@ import { useBooksContext } from 'context/Books';
 import styles from './Home.module.scss';
 
 function Home() {
-    const books = useBooksContext();
+    const { books } = useBooksContext();
 
     return (
         <section className={styles.home}>
