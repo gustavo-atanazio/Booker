@@ -1,0 +1,35 @@
+@import '../../styles/variables';
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 2rem;
+
+    & .img_input {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 60%;
+        aspect-ratio: 9/16;
+        background: #CCC;
+        border: 2px dashed $primary;
+        border-radius: 5px;
+
+        & input[type = file] {
+            display: none;
+        }
+    }
+
+    & button[type = submit] {
+        padding: 1rem 2rem;
+        width: 50%;
+        border: none;
+        border-radius: 5px;
+        font-size: 20px;
+        color: $white;
+        background-color: $primary;
+    }
+}
