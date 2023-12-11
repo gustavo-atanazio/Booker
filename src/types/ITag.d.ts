@@ -1,6 +1,7 @@
 interface ITag {
     text: string
-    color: string
+    backgroundColor: string
+    color?: string
     id: string
 }
 

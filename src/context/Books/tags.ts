@@ -3,42 +3,45 @@ import ITag from 'types/ITag';
 const tags: ITag[] = [
     {
         text: 'Aventura',
-        color: 'green',
+        backgroundColor: 'green',
         id: crypto.randomUUID()
     },
     {
         text: 'Romance',
-        color: 'pink',
+        backgroundColor: 'pink',
+        color: '#000',
         id: crypto.randomUUID()
     },
     {
         text: 'Ação',
-        color: 'red',
+        backgroundColor: 'red',
         id: crypto.randomUUID()
     },
     {
         text: 'Ficção científica',
-        color: 'blue',
+        backgroundColor: 'blue',
         id: crypto.randomUUID()
     },
     {
         text: 'Terror',
-        color: 'purple',
+        backgroundColor: 'purple',
         id: crypto.randomUUID()
     },
     {
         text: 'Didático',
-        color: 'yellow',
+        backgroundColor: 'yellow',
+        color: '#000',
         id: crypto.randomUUID()
     },
     {
         text: 'Auto-ajuda',
-        color: 'orange',
+        backgroundColor: 'orange',
+        color: '#000',
         id: crypto.randomUUID()
     },
     {
         text: 'Outro',
-        color: 'gray',
+        backgroundColor: 'gray',
         id: crypto.randomUUID()
     }
 ];
