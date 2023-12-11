@@ -1,5 +1,7 @@
-export interface Tag {
+interface ITag {
     text: string
     color: string
     id: string
 }
+
+export default ITag;
