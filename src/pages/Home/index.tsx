@@ -1,8 +1,10 @@
+import { useNavigate } from 'react-router-dom';
 import Card from 'components/Card';
 import { useBooksContext } from 'context/Books';
 import styles from './Home.module.scss';
 
 function Home() {
+    const navigate = useNavigate();
     const { books } = useBooksContext();
 
     return (
@@ -14,6 +16,8 @@ function Home() {
                     <Card key={book.id} {...book}/>
                 ))}
             </div>
+
+            <button onClick={() => navigate('/novo-livro')}>Criar novo</button>
         </section>
     );
 }
