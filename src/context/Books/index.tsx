@@ -1,71 +1,35 @@
 import { createContext, useContext, useState } from 'react';
-import Book from 'types/Book';
-import { Tag } from 'types/Tag';
+import tags from './tags';
+import IBook from 'types/IBook';
+import ITag from 'types/ITag';
 
-interface BooksContextType {
-    books: Book[]
-    setBooks: React.Dispatch<React.SetStateAction<Book[]>>
-    createBook: (title: string, author: string, img: File | null, tags: Tag[]) => void
-    tags: Tag[]
+interface IBooksContext {
+    books: IBook[]
+    setBooks: React.Dispatch<React.SetStateAction<IBook[]>>
+    createBook: (title: IBook['title'], author: IBook['author'], img: IBook['img'], tags: IBook['tags']) => void
+    tags: ITag[]
 }
 
 const initialValue = {
-    books: [],
+    books: [{
+        img: undefined,
+        title: 'Harry Potter',
+        author: 'J. K. Rowling',
+        tags: [tags[0]],
+        id: crypto.randomUUID()
+    }],
     setBooks: () => {},
     createBook: () => {},
     tags: []
 };
 
-const BooksContext = createContext<BooksContextType>(initialValue);
-
-const tags: Tag[] = [
-    {
-        text: 'Aventura',
-        color: 'green',
-        id: crypto.randomUUID()
-    },
-    {
-        text: 'Romance',
-        color: 'pink',
-        id: crypto.randomUUID()
-    },
-    {
-        text: 'Ação',
-        color: 'red',
-        id: crypto.randomUUID()
-    },
-    {
-        text: 'Ficção científica',
-        color: 'blue',
-        id: crypto.randomUUID()
-    },
-    {
-        text: 'Terror',
-        color: 'purple',
-        id: crypto.randomUUID()
-    },
-    {
-        text: 'Didático',
-        color: 'yellow',
-        id: crypto.randomUUID()
-    },
-    {
-        text: 'Auto-ajuda',
-        color: 'orange',
-        id: crypto.randomUUID()
-    },
-    {
-        text: 'Outro',
-        color: 'gray',
-        id: crypto.randomUUID()
-    }
-];
+const BooksContext = createContext<IBooksContext>(initialValue);
 
 function BooksProvider({ children }: { children: React.ReactNode }) {
-    const [books, setBooks] = useState<Book[]>(initialValue.books);
+    const [books, setBooks] = useState<IBook[]>(initialValue.books);
 
-    function createBook(title: string, author: string, img: File | null, tags: Tag[]) {
-        const book: Book = {
+    function createBook(title: IBook['title'], author: IBook['author'], img: IBook['img'], tags: IBook['tags']) {
+        const book: IBook = {
             title,
             author,
             img,

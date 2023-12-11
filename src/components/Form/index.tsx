@@ -5,7 +5,7 @@ import TagsContainer from 'components/TagsContainer';
 import Tag from 'components/Tag';
 
 import { useBooksContext } from 'context/Books';
-import { Tag as ITag } from 'types/Tag';
+import ITag from 'types/ITag';
 import styles from './Form.module.scss';
 
 function Form() {
