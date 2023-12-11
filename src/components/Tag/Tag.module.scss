@@ -1,7 +1,10 @@
+@import '../../styles/variables';
+
 .tag {
     flex-grow: 1;
     flex-basis: 100px;
     padding: 0.5rem;
     border: none;
     border-radius: 5px;
+    cursor: pointer;
 }
