@@ -1,3 +1,4 @@
+import Placeholder from 'assets/img/img-placeholder.svg?react';
 import TagsContainer from 'components/TagsContainer';
 import Tag from 'components/Tag';
 
@@ -8,7 +9,10 @@ function Card({ img, title, author, tags }: IBook) {
     return (
         <div className={styles.card}>
             <div>
-                <img src={img && URL.createObjectURL(img)} alt={`Capa do livro ${title}`}/>
+                {img
+                    ? <img src={img && URL.createObjectURL(img)} alt={`Capa do livro ${title}`}/>
+                    : <Placeholder/>
+                }
             </div>
 
             <h4>{title}</h4>
@@ -17,7 +21,7 @@ function Card({ img, title, author, tags }: IBook) {
             <TagsContainer>
                 {tags.map(tag => (
                     <Tag
-                        color={tag.color}
+                        backgroundColor={tag.backgroundColor}
                         text={tag.text}
                         disabled={true}
                         key={tag.id}
