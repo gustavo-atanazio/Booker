@@ -10,7 +10,7 @@ function Card({ img, title, author, tags }: IBook) {
         <div className={styles.card}>
             <div>
                 {img
-                    ? <img src={img && URL.createObjectURL(img)} alt={`Capa do livro ${title}`}/>
+                    ? <img src={URL.createObjectURL(img)} alt={`Capa do livro ${title}`}/>
                     : <Placeholder/>
                 }
             </div>
@@ -22,6 +22,7 @@ function Card({ img, title, author, tags }: IBook) {
                 {tags.map(tag => (
                     <Tag
                         backgroundColor={tag.backgroundColor}
+                        color={tag.color}
                         text={tag.text}
                         disabled={true}
                         key={tag.id}
