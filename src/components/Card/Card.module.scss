@@ -1,6 +1,9 @@
+@import '../../styles/variables';
+
 .card {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     gap: 1rem;
 
     width: 100%;
@@ -13,5 +16,22 @@
         width: 100%;
         height: 100%;
         border-radius: 5px;
+    }
+
+    & .edit, .delete {
+        padding: 0.5rem 1rem;
+        width: 100%;
+        max-width: 250px;
+        border: none;
+        border-radius: 5px;
+        color: $white;
+    }
+
+    & .edit {
+        background-color: #777;
+    }
+
+    & .delete {
+        background-color: rgb(231, 16, 16);
     }
 }

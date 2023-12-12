@@ -29,6 +29,11 @@ function Card({ img, title, author, tags }: IBook) {
                     />
                 ))}
             </TagsContainer>
+
+            <TagsContainer>
+                <button className={styles.edit}>Editar</button>
+                <button className={styles.delete}>Deletar</button>
+            </TagsContainer>
         </div>
     );
 }
