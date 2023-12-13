@@ -1,8 +1,9 @@
 import { useState } from 'react';
 
 import InputField from 'components/InputField';
-import TagsContainer from 'components/TagsContainer';
+import Container from 'components/Container';
 import Tag from 'components/Tag';
+import Button from 'components/Button';
 
 import { useBooksContext } from 'context/Books';
 import ITag from 'types/ITag';
@@ -58,7 +59,7 @@ function Form() {
 
             <h3>Tags</h3>
             
-            <TagsContainer>
+            <Container display='flex'>
                 {tags.map(tag => (
                     <Tag
                         {...tag}
@@ -66,7 +67,7 @@ function Form() {
                         key={tag.id}
                     />
                 ))}
-            </TagsContainer>
+            </Container>
 
             <label className={styles.img_input}>
                 <input
@@ -78,7 +79,15 @@ function Form() {
                 <span>Escolha uma imagem</span>
             </label>
 
-            <button type='submit'>Criar</button>
+            <Button
+                type='submit'
+                backgroundColor='#3D5A80'
+                color='#FFF'
+                width='50%'
+                fontSize='20px'
+            >
+                Criar
+            </Button>
         </form>
     );
 }
