@@ -1,6 +1,7 @@
 import Placeholder from 'assets/img/img-placeholder.svg?react';
-import TagsContainer from 'components/TagsContainer';
+import Container from 'components/Container';
 import Tag from 'components/Tag';
+import Button from 'components/Button';
 
 import IBook from 'types/IBook';
 import styles from './Card.module.scss';
@@ -18,7 +19,7 @@ function Card({ img, title, author, tags }: IBook) {
             <h4>{title}</h4>
             <span>{author}</span>
 
-            <TagsContainer>
+            <Container display='flex'>
                 {tags.map(tag => (
                     <Tag
                         backgroundColor={tag.backgroundColor}
@@ -28,12 +29,27 @@ function Card({ img, title, author, tags }: IBook) {
                         key={tag.id}
                     />
                 ))}
-            </TagsContainer>
+            </Container>
 
-            <TagsContainer>
-                <button className={styles.edit}>Editar</button>
-                <button className={styles.delete}>Deletar</button>
-            </TagsContainer>
+            <Container display='flex'>
+                <Button
+                    type='button'
+                    backgroundColor='#777'
+                    color='#FFF'
+                    padding='0.5rem 1rem'
+                >
+                    Editar
+                </Button>
+                
+                <Button
+                    type='button'
+                    backgroundColor='rgb(231, 16, 16)'
+                    color='#FFF'
+                    padding='0.5rem 1rem'
+                >
+                    Deletar
+                </Button>
+            </Container>
         </div>
     );
 }
