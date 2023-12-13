@@ -1,0 +1,17 @@
+.flex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+    justify-items: center;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    
+    @media (min-width: 992px) {
+        gap: 5rem;
+    }
+}
