@@ -10,6 +10,7 @@ interface Props {
     width?: string | number
     maxWidth?: string | number
     fontSize?: string | number
+    onClick?: () => void
 }
 
 function Button({
@@ -20,13 +21,15 @@ function Button({
     padding = '1rem 2rem',
     width = '100%',
     maxWidth = 250,
-    fontSize = '1rem'
+    fontSize = '1rem',
+    onClick
 }: Props) {
     return (
         <button
             type={type}
             style={{ backgroundColor, color, padding, width, maxWidth, fontSize }}
             className={styles.button}
+            onClick={() => onClick && onClick()}
         >
             {children}
         </button>
