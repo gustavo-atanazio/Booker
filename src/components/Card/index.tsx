@@ -3,10 +3,13 @@ import Container from 'components/Container';
 import Tag from 'components/Tag';
 import Button from 'components/Button';
 
+import { useBooksContext } from 'context/Books';
 import IBook from 'types/IBook';
 import styles from './Card.module.scss';
 
-function Card({ img, title, author, tags }: IBook) {
+function Card({ img, title, author, tags, id }: IBook) {
+    const { deleteBook } = useBooksContext();
+
     return (
         <div className={styles.card}>
             <div>
@@ -43,9 +46,10 @@ function Card({ img, title, author, tags }: IBook) {
                 
                 <Button
                     type='button'
-                    backgroundColor='rgb(231, 16, 16)'
+                    backgroundColor='#E71010'
                     color='#FFF'
                     padding='0.5rem 1rem'
+                    onClick={() => deleteBook(id)}
                 >
                     Deletar
                 </Button>
