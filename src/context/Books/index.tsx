@@ -7,6 +7,7 @@ interface IBooksContext {
     books: IBook[]
     setBooks: React.Dispatch<React.SetStateAction<IBook[]>>
     createBook: (title: IBook['title'], author: IBook['author'], img: IBook['img'], tags: IBook['tags']) => void
+    editBook: (id: string) => void
     deleteBook: (id: string) => void
     tags: ITag[]
 }
@@ -39,6 +40,7 @@ const initialValue = {
     }],
     setBooks: () => {},
     createBook: () => {},
+    editBook: () => {},
     deleteBook: () => {},
     tags: []
 };
@@ -60,6 +62,10 @@ function BooksProvider({ children }: { children: React.ReactNode }) {
         setBooks(prevState => [...prevState, book]);
     }
 
+    function editBook(id: string) {
+
+    }
+
     function deleteBook(id: string) {
         const updatedBooks = books.filter(item => item.id !== id);
         setBooks(updatedBooks);
@@ -69,6 +75,7 @@ function BooksProvider({ children }: { children: React.ReactNode }) {
         books,
         setBooks,
         createBook,
+        editBook,
         deleteBook,
         tags
     };

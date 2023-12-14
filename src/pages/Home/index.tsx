@@ -1,15 +1,19 @@
 import { useNavigate } from 'react-router-dom';
+import Modal from 'react-modal';
 
 import Container from 'components/Container';
 import Card from 'components/Card';
 import Button from 'components/Button';
 
 import { useBooksContext } from 'context/Books';
+import { useModalContext } from 'context/Modal';
+
 import styles from './Home.module.scss';
 
 function Home() {
     const navigate = useNavigate();
     const { books } = useBooksContext();
+    const { isOpen } = useModalContext();
 
     return (
         <section className={styles.home}>
@@ -31,6 +35,10 @@ function Home() {
             >
                 Criar novo
             </Button>
+
+            <Modal isOpen={isOpen}>
+                <p>Teste</p>
+            </Modal>
         </section>
     );
 }

@@ -4,11 +4,14 @@ import Tag from 'components/Tag';
 import Button from 'components/Button';
 
 import { useBooksContext } from 'context/Books';
+import { useModalContext } from 'context/Modal';
 import IBook from 'types/IBook';
+
 import styles from './Card.module.scss';
 
 function Card({ img, title, author, tags, id }: IBook) {
     const { deleteBook } = useBooksContext();
+    const { showModal } = useModalContext();
 
     return (
         <div className={styles.card}>
@@ -40,6 +43,7 @@ function Card({ img, title, author, tags, id }: IBook) {
                     backgroundColor='#777'
                     color='#FFF'
                     padding='0.5rem 1rem'
+                    onClick={() => showModal()}
                 >
                     Editar
                 </Button>
