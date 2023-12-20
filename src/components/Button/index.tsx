@@ -1,33 +1,18 @@
-import React from 'react';
+import { CSSProperties } from 'react';
 import styles from './Button.module.scss';
 
 interface Props {
     type: 'button' | 'submit' | 'reset'
     children: React.ReactNode
-    backgroundColor: string
-    color: string
-    padding?: string | number
-    width?: string | number
-    maxWidth?: string | number
-    fontSize?: string | number
-    onClick: () => void
+    style?: CSSProperties
+    onClick?: () => void
 }
 
-function Button({
-    type,
-    children,
-    backgroundColor,
-    color,
-    padding = '1rem 2rem',
-    width = '100%',
-    maxWidth = 250,
-    fontSize = '1rem',
-    onClick
-}: Props) {
+function Button({ type, children, style = {}, onClick = () => {} }: Props) {
     return (
         <button
             type={type}
-            style={{ backgroundColor, color, padding, width, maxWidth, fontSize }}
+            style={style}
             className={styles.button}
             onClick={() => onClick()}
         >

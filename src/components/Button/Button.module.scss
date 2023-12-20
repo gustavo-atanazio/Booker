@@ -1,6 +1,13 @@
+@import '../../styles/variables';
+
 .button {
     border: none;
     border-radius: 5px;
     outline: 0;
     cursor: pointer;
+    background-color: $primary;
+    color: $white;
+    padding: 1rem 2rem;
+    width: 100%;
+    max-width: 100%;
 }
