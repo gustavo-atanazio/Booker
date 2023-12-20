@@ -43,7 +43,7 @@ function Card({ img, title, author, tags, id }: IBook) {
                     backgroundColor='#777'
                     color='#FFF'
                     padding='0.5rem 1rem'
-                    onClick={() => showModal()}
+                    onClick={() => showModal({ img, title, author, tags, id })}
                 >
                     Editar
                 </Button>
