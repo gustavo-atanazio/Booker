@@ -1,7 +1,7 @@
 import styles from './InputField.module.scss';
 
 interface Props {
-    type: string
+    type: 'text' | 'number' | 'color' | 'date' | 'datetime-local' | 'email' | 'password' | 'tel' | 'time'
     label: string
     value: string
     setValue: React.Dispatch<React.SetStateAction<string>>
@@ -9,7 +9,7 @@ interface Props {
     required?: boolean
 }
 
-function InputField({ type, label, placeholder, required = false, value, setValue }: Props) {
+function InputField({ type, label, value, setValue, placeholder = '', required = false }: Props) {
     return (
         <div className={styles.input_field}>
             <label>{label}</label>
