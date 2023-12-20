@@ -95,10 +95,11 @@ function ModalForm({ img, title, author, bookTags, id }: ModalFormProps) {
             </Container>
 
             <Button type='submit'
-                backgroundColor='#3D5A80'
-                color='#FFF'
-                padding='0.5rem 1rem'
-                onClick={() => {}}
+                style={{
+                    padding: '0.5rem 1rem',
+                    fontSize: 20,
+                    maxWidth: 250
+                }}
             >
                 Editar
             </Button>

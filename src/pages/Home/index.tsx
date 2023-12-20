@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
+import { AiOutlineClose } from 'react-icons/ai';
 
 import Container from 'components/Container';
 import Card from 'components/Card';
@@ -14,7 +15,7 @@ import styles from './Home.module.scss';
 function Home() {
     const navigate = useNavigate();
     const { books } = useBooksContext();
-    const { isOpen, data } = useModalContext();
+    const { isOpen, data, closeModal } = useModalContext();
 
     return (
         <>
@@ -27,12 +28,12 @@ function Home() {
                     ))}
                 </Container>
 
-                <Button
-                    type='button'
-                    backgroundColor='#3D5A80'
-                    color='#FFF'
-                    width='50%'
-                    fontSize={20}
+                <Button type='button'
+                    style={{
+                        width: '50%',
+                        maxWidth: 250,
+                        fontSize: 20
+                    }}
                     onClick={() => navigate('/novo-livro')}
                 >
                     Criar novo
@@ -40,7 +41,11 @@ function Home() {
             </section>
 
             <Modal isOpen={isOpen} ariaHideApp={false}>
-                <h2>O que deseja editar?</h2>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '0 1rem 0.5rem' }}>
+                    <h2>O que deseja editar?</h2>
+
+                    <AiOutlineClose size={25} onClick={() => closeModal()} cursor='pointer'/>
+                </div>
                 <hr/>
 
                 <ModalForm bookTags={data.tags.map(tag => tag.id)} {...data}/>

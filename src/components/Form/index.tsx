@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import InputField from 'components/InputField';
 import Container from 'components/Container';
@@ -6,7 +6,6 @@ import Tag from 'components/Tag';
 import Button from 'components/Button';
 
 import { useBooksContext } from 'context/Books';
-import ITag from 'types/ITag';
 import styles from './Form.module.scss';
 
 function Form() {
@@ -14,12 +13,14 @@ function Form() {
 
     const [title, setTitle] = useState('');
     const [author, setAuthor] = useState('');
-    const [selectedTags, setSelectedTags] = useState<ITag[]>([]);
+    const [selectedTags, setSelectedTags] = useState<string[]>([]);
     const [img, setImg] = useState<File | undefined>();
+
+    const spanRef = useRef<HTMLSpanElement>(null);
 
     function handleSelect(id: string) {
         const selected = tags.find(tag => tag.id === id);
-        if (selected) setSelectedTags(prevState => [...prevState, selected]);
+        if (selected) setSelectedTags(prevState => [...prevState, selected.id]);
     }
 
     function handleImageChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -38,6 +39,12 @@ function Form() {
         setSelectedTags([]);
         setImg(undefined);
     }
+
+    useEffect(() => {
+        if (spanRef && spanRef.current && img) {
+            spanRef.current.style.backgroundImage = `url(${URL.createObjectURL(img)})`;
+        }
+    }, [img]);
 
     return (
         <form className={styles.form} onSubmit={handleSubmit}>
@@ -64,6 +71,7 @@ function Form() {
                     <Tag
                         {...tag}
                         select={handleSelect}
+                        selected={selectedTags.includes(tag.id)}
                         key={tag.id}
                     />
                 ))}
@@ -76,15 +84,14 @@ function Form() {
                     onChange={handleImageChange}
                 />
 
-                <span>Escolha uma imagem</span>
+                <span ref={spanRef}>Escolha uma imagem</span>
             </label>
 
-            <Button
-                type='submit'
+            <Button type='submit'
                 backgroundColor='#3D5A80'
                 color='#FFF'
                 width='50%'
-                fontSize='20px'
+                fontSize={20}
             >
                 Criar
             </Button>

@@ -38,21 +38,21 @@ function Card({ img, title, author, tags, id }: IBook) {
             </Container>
 
             <Container display='flex'>
-                <Button
-                    type='button'
-                    backgroundColor='#777'
-                    color='#FFF'
-                    padding='0.5rem 1rem'
+                <Button type='button'
+                    style={{
+                        backgroundColor: '#777',
+                        padding: '0.5rem 1rem'
+                    }}
                     onClick={() => showModal({ img, title, author, tags, id })}
                 >
                     Editar
                 </Button>
                 
-                <Button
-                    type='button'
-                    backgroundColor='#E71010'
-                    color='#FFF'
-                    padding='0.5rem 1rem'
+                <Button type='button'
+                    style={{
+                        backgroundColor: '#E71010',
+                        padding: '0.5rem 1rem'
+                    }}
                     onClick={() => deleteBook(id)}
                 >
                     Deletar

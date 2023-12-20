@@ -6,7 +6,7 @@ import ITag from 'types/ITag';
 interface IBooksContext {
     books: IBook[]
     setBooks: React.Dispatch<React.SetStateAction<IBook[]>>
-    createBook: (title: IBook['title'], author: IBook['author'], img: IBook['img'], tags: IBook['tags']) => void
+    createBook: (title: IBook['title'], author: IBook['author'], img: IBook['img'], tags: string[]) => void
     editBook: (title: IBook['title'], author: IBook['author'], img: IBook['img'], tagsID: string[], id: string) => void
     deleteBook: (id: string) => void
     tags: ITag[]
@@ -50,12 +50,12 @@ const BooksContext = createContext<IBooksContext>(initialValue);
 function BooksProvider({ children }: { children: React.ReactNode }) {
     const [books, setBooks] = useState<IBook[]>(initialValue.books);
 
-    function createBook(title: IBook['title'], author: IBook['author'], img: IBook['img'], tags: IBook['tags']) {
+    function createBook(title: IBook['title'], author: IBook['author'], img: IBook['img'], tagsID: string[]) {
         const book: IBook = {
             title,
             author,
             img,
-            tags,
+            tags: tagsID.map(tagID => tags.find(tag => tag.id === tagID)) as ITag[],
             id: crypto.randomUUID()
         };
 

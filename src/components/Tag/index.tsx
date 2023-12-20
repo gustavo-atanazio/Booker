@@ -7,13 +7,23 @@ interface Props {
     id?: string
     select?: (id: string) => void
     disabled?: boolean
+    selected?: boolean
 }
 
-function Tag({ text, backgroundColor, color = '#FFF', id, select, disabled = false }: Props) {
+function Tag({
+    text,
+    backgroundColor,
+    color = '#FFF',
+    id,
+    select,
+    disabled = false,
+    selected = false
+}: Props) {
     return (
         <button
-            style={{ backgroundColor, color }}
-            className={styles.tag} type='button'
+            style={{ backgroundColor, color, opacity: selected ? 0.5 : 1 }}
+            className={styles.tag}
+            type='button'
             onClick={() => (id && select) && select(id)}
             disabled={disabled}
         >
