@@ -88,10 +88,10 @@ function Form() {
             </label>
 
             <Button type='submit'
-                backgroundColor='#3D5A80'
-                color='#FFF'
-                width='50%'
-                fontSize={20}
+                style={{
+                    width: '50%',
+                    fontSize: 20
+                }}
             >
                 Criar
             </Button>
