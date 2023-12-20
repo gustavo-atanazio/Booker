@@ -41,7 +41,7 @@ function Home() {
             </section>
 
             <Modal isOpen={isOpen} ariaHideApp={false}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '0 1rem 0.5rem' }}>
+                <div className={styles.modal_header}>
                     <h2>O que deseja editar?</h2>
 
                     <AiOutlineClose size={25} onClick={() => closeModal()} cursor='pointer'/>
