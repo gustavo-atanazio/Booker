@@ -12,7 +12,7 @@ function NewBook() {
         <section className={styles.new_book}>
             <h2>Adicione um novo livro</h2>
 
-            <Form/>
+            <Form submitText='Criar'/>
 
             <Button type='button'
                 style={{
@@ -23,7 +23,7 @@ function NewBook() {
                     width: '50%',
                     maxWidth: 250
                 }}
-                onClick={() => navigate}
+                onClick={() => navigate('/')}
             >
                 Voltar
             </Button>

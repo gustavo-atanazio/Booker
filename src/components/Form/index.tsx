@@ -8,7 +8,7 @@ import Button from 'components/Button';
 import { useBooksContext } from 'context/Books';
 import styles from './Form.module.scss';
 
-function Form() {
+function Form({ submitText }: { submitText: string }) {
     const { tags, createBook } = useBooksContext();
 
     const [title, setTitle] = useState('');
@@ -18,7 +18,7 @@ function Form() {
 
     const spanRef = useRef<HTMLSpanElement>(null);
 
-    function handleSelect(id: string) {
+    function handleTagSelect(id: string) {
         const selected = tags.find(tag => tag.id === id);
         if (selected) setSelectedTags(prevState => [...prevState, selected.id]);
     }
@@ -48,35 +48,6 @@ function Form() {
 
     return (
         <form className={styles.form} onSubmit={handleSubmit}>
-            <InputField
-                type='text'
-                label='Nome do livro'
-                required={true}
-                value={title}
-                setValue={setTitle}
-            />
-
-            <InputField
-                type='text'
-                label='Autor'
-                required={true}
-                value={author}
-                setValue={setAuthor}
-            />
-
-            <h3>Tags</h3>
-            
-            <Container display='flex'>
-                {tags.map(tag => (
-                    <Tag
-                        {...tag}
-                        select={handleSelect}
-                        selected={selectedTags.includes(tag.id)}
-                        key={tag.id}
-                    />
-                ))}
-            </Container>
-
             <label className={styles.img_input}>
                 <input
                     type='file'
@@ -84,17 +55,49 @@ function Form() {
                     onChange={handleImageChange}
                 />
 
-                <span ref={spanRef}>Escolha uma imagem</span>
+                <span ref={spanRef} style={ img && { backgroundImage: `url(${URL.createObjectURL(img)})` }}>
+                    Escolha uma imagem
+                </span>
             </label>
 
-            <Button type='submit'
-                style={{
-                    width: '50%',
-                    fontSize: 20
-                }}
-            >
-                Criar
-            </Button>
+            <div className={styles.modal_inputs}>
+                <InputField
+                    label='Nome do livro'
+                    type='text'
+                    value={title}
+                    setValue={setTitle}
+                />
+
+                <InputField
+                    label='Nome do autor'
+                    type='text'
+                    value={author}
+                    setValue={setAuthor}
+                />
+            </div>
+
+            <div className={styles.wrapper}>
+                <Container display='flex'>
+                    {tags.map(tag => (
+                        <Tag
+                            {...tag}
+                            select={handleTagSelect}
+                            selected={selectedTags.includes(tag.id)}
+                            key={tag.id}
+                        />
+                    ))}
+                </Container>
+
+                <Button type='submit'
+                    style={{
+                        width: '50%',
+                        maxWidth: 250,
+                        fontSize: 20
+                    }}
+                >
+                    {submitText}
+                </Button>
+            </div>
         </form>
     );
 }

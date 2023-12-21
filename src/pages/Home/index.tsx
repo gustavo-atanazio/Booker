@@ -5,7 +5,7 @@ import { AiOutlineClose } from 'react-icons/ai';
 import Container from 'components/Container';
 import Card from 'components/Card';
 import Button from 'components/Button';
-import ModalForm from './ModalForm';
+import Form from 'components/Form';
 
 import { useBooksContext } from 'context/Books';
 import { useModalContext } from 'context/Modal';
@@ -15,7 +15,7 @@ import styles from './Home.module.scss';
 function Home() {
     const navigate = useNavigate();
     const { books } = useBooksContext();
-    const { isOpen, data, closeModal } = useModalContext();
+    const { isOpen, closeModal } = useModalContext();
 
     return (
         <>
@@ -48,7 +48,7 @@ function Home() {
                 </div>
                 <hr/>
 
-                <ModalForm bookTags={data.tags.map(tag => tag.id)} {...data}/>
+                <Form submitText='Editar'/>
             </Modal>
         </>
     );
