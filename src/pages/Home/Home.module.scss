@@ -1,11 +1,14 @@
 @import '../../styles/variables';
 
 .home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem 0;
     text-align: center;
 
     & h2 {
         color: $orange;
-        margin-top: 1.5rem;
     }
 }
 
