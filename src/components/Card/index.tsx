@@ -41,7 +41,8 @@ function Card({ img, title, author, tags, id }: IBook) {
                 <Button type='button'
                     style={{
                         backgroundColor: '#777',
-                        padding: '0.5rem 1rem'
+                        padding: '0.5rem 1rem',
+                        letterSpacing: 1
                     }}
                     onClick={() => showModal({ img, title, author, tags, id })}
                 >
@@ -51,7 +52,8 @@ function Card({ img, title, author, tags, id }: IBook) {
                 <Button type='button'
                     style={{
                         backgroundColor: '#E71010',
-                        padding: '0.5rem 1rem'
+                        padding: '0.5rem 1rem',
+                        letterSpacing: 1
                     }}
                     onClick={() => deleteBook(id)}
                 >
