@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
 import Header from 'components/Header';
 import Footer from 'components/Footer';
@@ -19,6 +20,19 @@ function AppRouter() {
             </main>
 
             <Footer/>
+
+            <ToastContainer
+                position='top-right'
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss={false}
+                draggable
+                pauseOnHover={false}
+                theme='light'
+            />
         </BrowserRouter>
     );
 }

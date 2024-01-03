@@ -1,4 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 import InputField from 'components/InputField';
 import Container from 'components/Container';
@@ -9,6 +12,7 @@ import { useBooksContext } from 'context/Books';
 import styles from './Form.module.scss';
 
 function Form({ submitText }: { submitText: string }) {
+    const navigate = useNavigate();
     const { tags, createBook } = useBooksContext();
 
     const [title, setTitle] = useState('');
@@ -38,6 +42,9 @@ function Form({ submitText }: { submitText: string }) {
         setAuthor('');
         setSelectedTags([]);
         setImg(undefined);
+
+        navigate('/');
+        toast.success('Livro criado com sucesso!');
     }
 
     useEffect(() => {
