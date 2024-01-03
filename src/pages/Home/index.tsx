@@ -10,6 +10,7 @@ import Form from 'components/Form';
 import { useBooksContext } from 'context/Books';
 import { useModalContext } from 'context/Modal';
 
+import Empty from 'assets/img/empty.svg?react';
 import styles from './Home.module.scss';
 
 function Home() {
@@ -22,11 +23,25 @@ function Home() {
             <section className={styles.home}>
                 <h2>Meus livros</h2>
 
-                <Container display='grid'>
-                    {books.map(book => (
-                        <Card key={book.id} {...book}/>
-                    ))}
-                </Container>
+                {books.length === 0
+                    ? (
+                        <>
+                            <div className={styles.empty_container}>
+                                <Empty/>
+                            </div>
+
+                            <p className={styles.empty_text}>Nenhum livro por aqui</p>
+                        </>
+                    )
+
+                    : (
+                        <Container display='grid'>
+                            {books.map(book => (
+                                <Card key={book.id} {...book}/>
+                            ))}
+                        </Container>
+                    )
+                }
 
                 <Button type='button'
                     style={{

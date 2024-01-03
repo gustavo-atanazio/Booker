@@ -9,7 +9,7 @@
     grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
     justify-items: center;
     gap: 1.5rem;
-    padding: 1.5rem;
+    padding: 0 1.5rem;
     width: 100%;
     
     @media (min-width: 992px) {
