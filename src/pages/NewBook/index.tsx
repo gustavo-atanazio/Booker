@@ -12,7 +12,7 @@ function NewBook() {
         <section className={styles.new_book}>
             <h2>Adicione um novo livro</h2>
 
-            <Form submitText='Criar'/>
+            <Form submitText='Criar' toastMessage='Livro criado com sucesso!'/>
 
             <Button type='button'
                 style={{

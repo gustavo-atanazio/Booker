@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.min.css';
 
 import InputField from 'components/InputField';
 import Container from 'components/Container';
@@ -9,11 +8,20 @@ import Tag from 'components/Tag';
 import Button from 'components/Button';
 
 import { useBooksContext } from 'context/Books';
+import { useModalContext } from 'context/Modal';
+
 import styles from './Form.module.scss';
 
-function Form({ submitText }: { submitText: string }) {
+interface Props {
+    submitText: string
+    toastMessage: string
+    bookID?: string
+}
+
+function Form({ submitText, toastMessage, bookID }: Props) {
     const navigate = useNavigate();
-    const { tags, createBook } = useBooksContext();
+    const { books, tags, createBook, editBook } = useBooksContext();
+    const { closeModal } = useModalContext();
 
     const [title, setTitle] = useState('');
     const [author, setAuthor] = useState('');
@@ -24,7 +32,17 @@ function Form({ submitText }: { submitText: string }) {
 
     function handleTagSelect(id: string) {
         const selected = tags.find(tag => tag.id === id);
-        if (selected) setSelectedTags(prevState => [...prevState, selected.id]);
+
+        if (selected) {
+            // Verificando se a tag já foi selecionada
+
+            if (selectedTags.includes(selected.id)) {
+                const newTags = selectedTags.filter(tagID => tagID !== selected.id);
+                setSelectedTags(newTags);
+            } else {
+                setSelectedTags(prevState => [...prevState, selected.id]);
+            }
+        }
     }
 
     function handleImageChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -36,15 +54,22 @@ function Form({ submitText }: { submitText: string }) {
 
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        createBook(title, author, img, selectedTags);
 
-        setTitle('');
-        setAuthor('');
-        setSelectedTags([]);
-        setImg(undefined);
+        if (bookID) {
+            editBook(title, author, img, selectedTags, bookID);
+            closeModal();
+        } else {
+            createBook(title, author, img, selectedTags);
 
-        navigate('/');
-        toast.success('Livro criado com sucesso!');
+            setTitle('');
+            setAuthor('');
+            setSelectedTags([]);
+            setImg(undefined);
+
+            navigate('/');
+        }
+
+        toast.success(toastMessage);
     }
 
     useEffect(() => {
@@ -52,6 +77,19 @@ function Form({ submitText }: { submitText: string }) {
             spanRef.current.style.backgroundImage = `url(${URL.createObjectURL(img)})`;
         }
     }, [img]);
+
+    useEffect(() => {
+        if (bookID) {
+            const book = books.find(bk => bk.id === bookID);
+            
+            if (book) {
+                setTitle(book.title);
+                setAuthor(book.author);
+                setSelectedTags(book.tags.map(tag => tag.id));
+                setImg(book.img);
+            }
+        }
+    }, []);
 
     return (
         <form className={styles.form} onSubmit={handleSubmit}>

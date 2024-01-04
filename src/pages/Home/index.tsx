@@ -16,7 +16,7 @@ import styles from './Home.module.scss';
 function Home() {
     const navigate = useNavigate();
     const { books } = useBooksContext();
-    const { isOpen, closeModal } = useModalContext();
+    const { isOpen, closeModal, data } = useModalContext();
 
     return (
         <>
@@ -63,7 +63,11 @@ function Home() {
                 </div>
                 <hr/>
 
-                <Form submitText='Editar'/>
+                <Form
+                    submitText='Editar'
+                    toastMessage='Livro editado com sucesso!'
+                    bookID={data.id}
+                />
             </Modal>
         </>
     );
