@@ -1,10 +1,8 @@
-import { useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 import { AiOutlineClose } from 'react-icons/ai';
 
 import Container from 'components/Container';
 import Card from 'components/Card';
-import Button from 'components/Button';
 import Form from 'components/Form';
 
 import { useBooksContext } from 'context/Books';
@@ -14,7 +12,6 @@ import Empty from 'assets/img/empty.svg?react';
 import styles from './Home.module.scss';
 
 function Home() {
-    const navigate = useNavigate();
     const { books } = useBooksContext();
     const { isOpen, closeModal, data } = useModalContext();
 
@@ -42,17 +39,6 @@ function Home() {
                         </Container>
                     )
                 }
-
-                <Button type='button'
-                    style={{
-                        width: '50%',
-                        maxWidth: 250,
-                        fontSize: 20
-                    }}
-                    onClick={() => navigate('/novo-livro')}
-                >
-                    Criar novo
-                </Button>
             </section>
 
             <Modal isOpen={isOpen} ariaHideApp={false}>
