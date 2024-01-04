@@ -1,25 +1,20 @@
+import { InputHTMLAttributes } from 'react';
 import styles from './InputField.module.scss';
 
-interface Props {
-    type: 'text' | 'number' | 'color' | 'date' | 'datetime-local' | 'email' | 'password' | 'tel' | 'time'
-    label: string
-    value: string
+type InputProps = InputHTMLAttributes<HTMLInputElement> & {
     setValue: React.Dispatch<React.SetStateAction<string>>
-    placeholder?: string
-    required?: boolean
-}
+    label: string
+};
 
-function InputField({ type, label, value, setValue, placeholder = '', required = false }: Props) {
+function InputField({ type = 'text', setValue, label, required = false, ...props }: InputProps) {
     return (
         <div className={styles.input_field}>
             <label>{label}</label>
 
             <input
                 type={type}
-                value={value}
                 onChange={event => setValue(event.target.value)}
-                placeholder={placeholder}
-                required={required}
+                {...props}
             />
         </div>
     );
