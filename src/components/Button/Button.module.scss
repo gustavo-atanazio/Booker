@@ -11,4 +11,9 @@
     width: 100%;
     max-width: 100%;
     font-weight: 800;
+
+    &:hover {
+        background-color: $white;
+        color: $primary;
+    }
 }

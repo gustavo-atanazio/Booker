@@ -41,6 +41,7 @@ function Card({ img, title, author, tags, id }: IBook) {
                 <Button type='button'
                     style={{
                         backgroundColor: '#777',
+                        color: '#FFF',
                         padding: '0.5rem 1rem',
                         letterSpacing: 1
                     }}
@@ -52,6 +53,7 @@ function Card({ img, title, author, tags, id }: IBook) {
                 <Button type='button'
                     style={{
                         backgroundColor: '#E71010',
+                        color: '#FFF',
                         padding: '0.5rem 1rem',
                         letterSpacing: 1
                     }}

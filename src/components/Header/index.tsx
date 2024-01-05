@@ -15,7 +15,8 @@ function Header() {
                     width: '50%',
                     maxWidth: 250,
                     fontSize: 20,
-                    border: '2px solid #FFF'
+                    border: '2px solid #FFF',
+                    transition: '0.3s'
                 }}
                 onClick={() => navigate(pathname === '/' ? '/novo-livro' : '/')}
             >
