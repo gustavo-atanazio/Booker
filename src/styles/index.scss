@@ -12,3 +12,12 @@ html, body, #root {
     min-height: 100vh;
     min-height: 100dvh;
 }
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #777;
+    border-radius: 5px;
+}
