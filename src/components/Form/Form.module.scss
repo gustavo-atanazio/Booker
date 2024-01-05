@@ -19,6 +19,11 @@
         border: 2px dashed #000;
         border-radius: 5px;
         cursor: pointer;
+        transition: 0.3s;
+
+        &:hover {
+            background-color: #AAA;
+        }
 
         & span {
             width: 100%;

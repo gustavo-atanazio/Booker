@@ -137,7 +137,9 @@ function Form({ submitText, toastMessage, bookID }: Props) {
                     style={{
                         width: '50%',
                         maxWidth: 250,
-                        fontSize: 20
+                        fontSize: 20,
+                        border: '2px solid #3D5A80',
+                        transition: '0.3s'
                     }}
                 >
                     {submitText}

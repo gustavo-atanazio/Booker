@@ -1,8 +1,11 @@
+@import '../../styles/variables';
+
 .new_book {
     text-align: center;
     padding: 1.5rem;
 
     & h2 {
         margin-top: 2rem;
+        color: $orange;
     }
 }

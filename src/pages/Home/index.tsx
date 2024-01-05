@@ -11,6 +11,8 @@ import { useModalContext } from 'context/Modal';
 import Empty from 'assets/img/empty.svg?react';
 import styles from './Home.module.scss';
 
+Modal.setAppElement('#root');
+
 function Home() {
     const { books } = useBooksContext();
     const { isOpen, closeModal, data } = useModalContext();
@@ -41,7 +43,7 @@ function Home() {
                 }
             </section>
 
-            <Modal isOpen={isOpen} ariaHideApp={false}>
+            <Modal isOpen={isOpen} ariaHideApp={true}>
                 <div className={styles.modal_header}>
                     <h2>O que deseja editar?</h2>
 
