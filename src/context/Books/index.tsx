@@ -1,43 +1,21 @@
 import { createContext, useContext, useState } from 'react';
+
 import tags from './tags';
+
 import IBook from 'types/IBook';
 import ITag from 'types/ITag';
 
 interface IBooksContext {
     books: IBook[]
     setBooks: React.Dispatch<React.SetStateAction<IBook[]>>
-    createBook: (title: IBook['title'], author: IBook['author'], img: IBook['img'], tags: string[]) => void
-    editBook: (title: IBook['title'], author: IBook['author'], img: IBook['img'], tagsID: string[], id: string) => void
+    createBook: (title: string, author: string, img: IBook['img'], tags: string[]) => void
+    editBook: (title: string, author: string, img: IBook['img'], tagsID: string[], id: string) => void
     deleteBook: (id: string) => void
     tags: ITag[]
 }
 
 const initialValue = {
-    books: [{
-        img: undefined,
-        title: 'Harry Potter e a Pedra Filosofal',
-        author: 'J. K. Rowling',
-        tags: [tags[0], tags[5], tags[1], tags[2]],
-        id: crypto.randomUUID()
-    }, {
-        img: undefined,
-        title: 'Harry Potter e a Pedra Filosofal',
-        author: 'J. K. Rowling',
-        tags: [tags[0], tags[5]],
-        id: crypto.randomUUID()
-    }, {
-        img: undefined,
-        title: 'Harry Potter e a Pedra Filosofal',
-        author: 'J. K. Rowling',
-        tags: [tags[0], tags[5]],
-        id: crypto.randomUUID()
-    }, {
-        img: undefined,
-        title: 'Harry Potter e a Pedra Filosofal',
-        author: 'J. K. Rowling',
-        tags: [tags[0], tags[5]],
-        id: crypto.randomUUID()
-    }],
+    books: [],
     setBooks: () => {},
     createBook: () => {},
     editBook: () => {},
@@ -50,7 +28,7 @@ const BooksContext = createContext<IBooksContext>(initialValue);
 function BooksProvider({ children }: { children: React.ReactNode }) {
     const [books, setBooks] = useState<IBook[]>(initialValue.books);
 
-    function createBook(title: IBook['title'], author: IBook['author'], img: IBook['img'], tagsID: string[]) {
+    function createBook(title: string, author: string, img: IBook['img'], tagsID: string[]) {
         const book: IBook = {
             title,
             author,
@@ -58,11 +36,11 @@ function BooksProvider({ children }: { children: React.ReactNode }) {
             tags: tagsID.map(tagID => tags.find(tag => tag.id === tagID)) as ITag[],
             id: crypto.randomUUID()
         };
-
+    
         setBooks(prevState => [...prevState, book]);
     }
 
-    function editBook(title: IBook['title'], author: IBook['author'], img: IBook['img'], tagsID: string[], id: string) {
+    function editBook(title: string, author: string, img: IBook['img'], tagsID: string[], id: string) {
         setBooks(prevState => {
             return prevState.map(book => {
                 return book.id === id
@@ -80,7 +58,7 @@ function BooksProvider({ children }: { children: React.ReactNode }) {
     }
 
     function deleteBook(id: string) {
-        const updatedBooks = books.filter(item => item.id !== id);
+        const updatedBooks = books.filter(book => book.id !== id);
         setBooks(updatedBooks);
     }
 
@@ -104,8 +82,4 @@ function useBooksContext() {
     return useContext(BooksContext);
 }
 
-export {
-    BooksContext,
-    BooksProvider,
-    useBooksContext
-};
+export { BooksContext, BooksProvider, useBooksContext };
