@@ -1,4 +1,5 @@
-import Placeholder from 'assets/img/img-placeholder.svg?react';
+import { memo } from 'react';
+
 import Container from 'components/Container';
 import Tag from 'components/Tag';
 import Button from 'components/Button';
@@ -7,6 +8,7 @@ import { useBooksContext } from 'context/Books';
 import { useModalContext } from 'context/Modal';
 import IBook from 'types/IBook';
 
+import Placeholder from 'assets/img/img-placeholder.svg?react';
 import styles from './Card.module.scss';
 
 function Card({ img, title, author, tags, id }: IBook) {
@@ -66,4 +68,4 @@ function Card({ img, title, author, tags, id }: IBook) {
     );
 }
 
-export default Card;
+export default memo(Card);

@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import styles from './Tag.module.scss';
 
 interface Props {
@@ -32,4 +33,4 @@ function Tag({
     );
 }
 
-export default Tag;
+export default memo(Tag);

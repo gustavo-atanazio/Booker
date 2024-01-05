@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import Modal from 'react-modal';
 import { AiOutlineClose } from 'react-icons/ai';
 
@@ -16,6 +17,9 @@ Modal.setAppElement('#root');
 function Home() {
     const { books } = useBooksContext();
     const { isOpen, closeModal, data } = useModalContext();
+    const closeIcon = useMemo(() => {
+        return <AiOutlineClose size={25} onClick={() => closeModal()} cursor='pointer'/>;
+    }, []);
 
     return (
         <>
@@ -47,7 +51,7 @@ function Home() {
                 <div className={styles.modal_header}>
                     <h2>O que deseja editar?</h2>
 
-                    <AiOutlineClose size={25} onClick={() => closeModal()} cursor='pointer'/>
+                    {closeIcon}
                 </div>
                 <hr/>
 
