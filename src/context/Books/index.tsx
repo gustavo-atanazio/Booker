@@ -1,9 +1,13 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 import tags from './tags';
 
 import IBook from 'types/IBook';
 import ITag from 'types/ITag';
+
+import { getFromLocalStorage } from 'utils/localStorage';
+import { updateLocalStorage } from 'utils/localStorage';
+import { removeScript } from 'utils/remove-script';
 
 interface IBooksContext {
     books: IBook[]
@@ -15,7 +19,7 @@ interface IBooksContext {
 }
 
 const initialValue = {
-    books: [],
+    books: getFromLocalStorage('BOOKS'),
     setBooks: () => {},
     createBook: () => {},
     editBook: () => {},
@@ -30,8 +34,8 @@ function BooksProvider({ children }: { children: React.ReactNode }) {
 
     function createBook(title: string, author: string, img: IBook['img'], tagsID: string[]) {
         const book: IBook = {
-            title,
-            author,
+            title: removeScript(title),
+            author: removeScript(author),
             img,
             tags: tagsID.map(tagID => tags.find(tag => tag.id === tagID)) as ITag[],
             id: crypto.randomUUID()
@@ -44,11 +48,10 @@ function BooksProvider({ children }: { children: React.ReactNode }) {
         setBooks(prevState => {
             return prevState.map(book => {
                 return book.id === id
-                    ?
-                    {
+                    ? {
                         ...book,
-                        title,
-                        author,
+                        title: removeScript(title),
+                        author: removeScript(author),
                         img: img || book.img,
                         tags: tagsID.map(tagID => tags.find(tag => tag.id === tagID)) as ITag[]
                     }
@@ -70,6 +73,10 @@ function BooksProvider({ children }: { children: React.ReactNode }) {
         deleteBook,
         tags
     };
+
+    useEffect(() => {
+        updateLocalStorage('BOOKS', books);
+    }, [books]);
 
     return (
         <BooksContext.Provider value={value}>
