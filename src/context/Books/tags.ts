@@ -40,6 +40,38 @@ const tags: ITag[] = [
         id: crypto.randomUUID()
     },
     {
+        text: 'Mistério',
+        backgroundColor: '#1B4242',
+        id: crypto.randomUUID()
+    },
+    {
+        text: 'Suspense',
+        backgroundColor: '#3B3486',
+        id: crypto.randomUUID()
+    },
+    {
+        text: 'Fantasia',
+        backgroundColor: '#7D0A0A',
+        id: crypto.randomUUID()
+    },
+    {
+        text: 'Biografia',
+        backgroundColor: '#D0D4CA',
+        color: '#000',
+        id: crypto.randomUUID()
+    },
+    {
+        text: 'Drama',
+        backgroundColor: '#392467',
+        id: crypto.randomUUID()
+    },
+    {
+        text: 'Humor',
+        backgroundColor: '#FF9800',
+        color: '#000',
+        id: crypto.randomUUID()
+    },
+    {
         text: 'Outro',
         backgroundColor: '#607274',
         id: crypto.randomUUID()
