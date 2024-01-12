@@ -7,7 +7,7 @@
     cursor: pointer;
     background-color: $primary;
     color: $white;
-    padding: 1rem 2rem;
+    padding: 1rem;
     width: 100%;
     max-width: 100%;
     font-weight: 800;
@@ -15,5 +15,9 @@
     &:hover {
         background-color: $white;
         color: $primary;
+    }
+
+    @media (min-width: 768px) {
+        padding: 1rem 2rem;
     }
 }

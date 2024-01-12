@@ -15,4 +15,8 @@
     @media (min-width: 992px) {
         gap: 5rem;
     }
+
+    @media (min-width: 1024px) {
+        grid-template-columns: repeat(4, minmax(8rem, 1fr));
+    }
 }
