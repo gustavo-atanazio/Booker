@@ -12,6 +12,10 @@
     height: 100dvh;
 }
 
+main {
+    min-height: 100%;
+}
+
 ::-webkit-scrollbar {
     width: 5px;
 }
