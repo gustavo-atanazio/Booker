@@ -1,0 +1,24 @@
+{
+  "signup": {
+    "title": "Create your account",
+    "subtitle": "Join the readers community",
+    "name": "Full name",
+    "namePlaceholder": "Your name",
+    "username": "Username",
+    "usernamePlaceholder": "your_username",
+    "email": "Email",
+    "emailPlaceholder": "your@email.com",
+    "password": "Password",
+    "passwordPlaceholder": "Minimum 8 characters",
+    "confirmPassword": "Confirm password",
+    "confirmPasswordPlaceholder": "Type password again",
+    "submit": "Create Account",
+    "hasAccount": "Already have an account?",
+    "login": "Sign In",
+    "footer": "By creating an account, you agree to our Terms of Use and Privacy Policy.",
+    "validation": {
+      "passwordMismatch": "Passwords do not match",
+      "weakPassword": "Password must contain uppercase, lowercase, number and special character"
+    }
+  }
+}

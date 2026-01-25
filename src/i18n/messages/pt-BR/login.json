@@ -1,0 +1,14 @@
+{
+  "login": {
+    "title": "Entre com sua conta",
+    "subtitle": "Utilize seu e-mail e senha",
+    "email": "E-mail",
+    "emailPlaceholder": "seu@email.com",
+    "password": "Senha",
+    "passwordPlaceholder": "Sua senha",
+    "submit": "Entrar",
+    "noAccount": "Ainda não tem uma conta?",
+    "signup": "Cadastre-se",
+    "footer": "Ao entrar em nossa plataforma, você concorda com nossos Termos de Uso e Política de Privacidade."
+  }
+}

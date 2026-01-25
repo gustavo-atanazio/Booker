@@ -1,0 +1,24 @@
+{
+  "signup": {
+    "title": "Crie sua conta",
+    "subtitle": "Junte-se à comunidade de leitores",
+    "name": "Nome completo",
+    "namePlaceholder": "Seu nome",
+    "username": "Nome de usuário",
+    "usernamePlaceholder": "seu_usuario",
+    "email": "E-mail",
+    "emailPlaceholder": "seu@email.com",
+    "password": "Senha",
+    "passwordPlaceholder": "Mínimo 8 caracteres",
+    "confirmPassword": "Confirmar senha",
+    "confirmPasswordPlaceholder": "Digite a senha novamente",
+    "submit": "Criar Conta",
+    "hasAccount": "Já tem uma conta?",
+    "login": "Fazer Login",
+    "footer": "Ao criar uma conta, você concorda com nossos Termos de Uso e Política de Privacidade.",
+    "validation": {
+      "passwordMismatch": "As senhas não coincidem",
+      "weakPassword": "A senha deve conter maiúscula, minúscula, número e caractere especial"
+    }
+  }
+}
