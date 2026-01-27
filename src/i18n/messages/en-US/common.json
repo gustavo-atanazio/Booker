@@ -1,0 +1,16 @@
+{
+  "welcome": "Welcome",
+  "errors": {
+    "INVALID_CREDENTIALS": "Invalid email or password.",
+    "USER_NOT_FOUND": "User not found.",
+    "RATE_LIMITED": "Too many attempts. Try again in {seconds}s.",
+    "NETWORK_ERROR": "Connection error. Check your internet.",
+    "SERVER_ERROR": "Server error. Try again later.",
+    "DEFAULT": "An error occurred. Please try again."
+  },
+  "themes": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  }
+}

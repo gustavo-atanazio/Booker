@@ -1,0 +1,36 @@
+{
+  "landing": {
+    "hero": {
+      "title": "Compartilhe suas Leituras com",
+      "subtitle": "A rede social para amantes de livros. Avalie, descubra e compartilhe suas histórias favoritas com uma comunidade apaixonada por leitura.",
+      "cta": "Começar Agora",
+      "login": "Fazer Login"
+    },
+    "features": {
+      "title": "Por que escolher o Booker?",
+      "subtitle": "Tudo que você precisa para organizar sua vida literária em um só lugar",
+      "items": {
+        "rate": {
+          "title": "Avalie e Organize",
+          "description": "Crie estantes personalizadas, avalie livros e mantenha seu histórico de leitura sempre atualizado."
+        },
+        "discover": {
+          "title": "Descubra Novos Livros",
+          "description": "Encontre sua próxima leitura através de recomendações personalizadas e listas curadas pela comunidade."
+        },
+        "share": {
+          "title": "Compartilhe com Amigos",
+          "description": "Conecte-se com outros leitores, compartilhe resenhas e acompanhe o que seus amigos estão lendo."
+        }
+      }
+    },
+    "cta": {
+      "title": "Pronto para começar?",
+      "subtitle": "Junte-se a milhares de leitores e comece a compartilhar suas histórias favoritas hoje mesmo.",
+      "button": "Criar Conta Grátis"
+    },
+    "footer": {
+      "rights": "Todos os direitos reservados."
+    }
+  }
+}

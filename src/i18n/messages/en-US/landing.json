@@ -1,0 +1,36 @@
+{
+  "landing": {
+    "hero": {
+      "title": "Share Your Readings with",
+      "subtitle": "The social network for book lovers. Rate, discover and share your favorite stories with a community passionate about reading.",
+      "cta": "Get Started",
+      "login": "Sign In"
+    },
+    "features": {
+      "title": "Why choose Booker?",
+      "subtitle": "Everything you need to organize your literary life in one place",
+      "items": {
+        "rate": {
+          "title": "Rate and Organize",
+          "description": "Create custom shelves, rate books and keep your reading history always up to date."
+        },
+        "discover": {
+          "title": "Discover New Books",
+          "description": "Find your next read through personalized recommendations and community-curated lists."
+        },
+        "share": {
+          "title": "Share with Friends",
+          "description": "Connect with other readers, share reviews and follow what your friends are reading."
+        }
+      }
+    },
+    "cta": {
+      "title": "Ready to get started?",
+      "subtitle": "Join thousands of readers and start sharing your favorite stories today.",
+      "button": "Create Free Account"
+    },
+    "footer": {
+      "rights": "All rights reserved."
+    }
+  }
+}

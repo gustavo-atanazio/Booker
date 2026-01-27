@@ -1,0 +1,16 @@
+{
+  "welcome": "Bem-vindo",
+  "errors": {
+    "INVALID_CREDENTIALS": "E-mail ou senha inválidos.",
+    "USER_NOT_FOUND": "Usuário não encontrado.",
+    "RATE_LIMITED": "Muitas tentativas. Tente novamente em {seconds}s.",
+    "NETWORK_ERROR": "Erro de conexão. Verifique sua internet.",
+    "SERVER_ERROR": "Erro no servidor. Tente novamente mais tarde.",
+    "DEFAULT": "Ocorreu um erro. Tente novamente."
+  },
+  "themes": {
+    "light": "Claro",
+    "dark": "Escuro",
+    "system": "Sistema"
+  }
+}
