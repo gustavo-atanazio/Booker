@@ -2,8 +2,7 @@ import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/routing';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import ThemeToggle from '@/components/ThemeToggle';
-import LanguageSwitcher from '@/components/LanguageSwitcher';
+import Header from '@/components/Header';
 import { BookOpen, Sparkles, Users } from 'lucide-react';
 
 export default async function Home() {
@@ -11,18 +10,7 @@ export default async function Home() {
 
   return (
     <div className='min-h-screen flex flex-col'>
-      <header className='border-b'>
-        <div className='container mx-auto px-4 py-4 flex items-center justify-between'>
-          <h1 className='text-2xl font-bold'>Booker</h1>
-          <div className='flex items-center gap-2'>
-            <LanguageSwitcher />
-            <ThemeToggle />
-            <Button variant='ghost' asChild>
-              <Link href='/login'>{t('hero.login')}</Link>
-            </Button>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       <section className='flex-1 container mx-auto px-4 py-16 md:py-24'>
         <div className='max-w-4xl mx-auto text-center space-y-8'>

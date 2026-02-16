@@ -5,7 +5,10 @@ import Form from './_components/Form';
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/routing';
 
-export default async function Login() {
+type SearchParams = Promise<{ redirect?: string }>;
+
+export default async function Login(props: { searchParams: SearchParams }) {
+  const searchParams = await props.searchParams;
   const t = await getTranslations('login');
 
   return (
@@ -35,7 +38,7 @@ export default async function Login() {
             </CardHeader>
 
             <CardContent>
-              <Form />
+              <Form redirectTo={searchParams.redirect} />
             </CardContent>
 
             <CardFooter>

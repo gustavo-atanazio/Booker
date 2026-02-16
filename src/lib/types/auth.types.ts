@@ -1,3 +1,5 @@
+export type UserRole = 'USER' | 'ADMIN';
+
 // API Request DTOs
 export interface RegisterRequestDTO {
   name: string;
@@ -15,12 +17,11 @@ export interface LoginRequestDTO {
 export interface AuthenticationResponseDTO {
   accessToken: string;
   refreshToken: string;
-  tokenType: string;
   expiresIn: number; // seconds
-  user: UserDTO;
+  user: UserProfileDTO;
 }
 
-export interface UserDTO {
+export interface UserProfileDTO {
   id: string;
   name: string;
   username: string;
@@ -28,4 +29,8 @@ export interface UserDTO {
   bio?: string;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface UserDTO extends UserProfileDTO {
+  role: UserRole;
 }

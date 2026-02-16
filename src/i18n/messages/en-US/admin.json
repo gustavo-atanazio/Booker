@@ -1,0 +1,6 @@
+{
+  "admin": {
+    "title": "Admin Panel",
+    "welcome": "Welcome, {name}. You have administrator access."
+  }
+}

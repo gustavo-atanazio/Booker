@@ -19,5 +19,12 @@
     "light": "Claro",
     "dark": "Escuro",
     "system": "Sistema"
+  },
+  "userMenu": {
+    "login": "Entrar",
+    "dashboard": "Dashboard",
+    "settings": "Configurações",
+    "admin": "Painel Admin",
+    "logout": "Sair"
   }
 }

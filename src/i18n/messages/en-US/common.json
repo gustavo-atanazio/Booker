@@ -19,5 +19,12 @@
     "light": "Light",
     "dark": "Dark",
     "system": "System"
+  },
+  "userMenu": {
+    "login": "Login",
+    "dashboard": "Dashboard",
+    "settings": "Settings",
+    "admin": "Admin Panel",
+    "logout": "Logout"
   }
 }

@@ -4,17 +4,19 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema, type LoginFormData } from '@/lib/validation/auth.schema';
 import { loginAction } from '@/actions/auth.actions';
+import { useActionSubmit } from '@/hooks/useActionSubmit';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useTranslations } from 'next-intl';
-import { useState } from 'react';
 
-export default function Form() {
+interface FormProps {
+  redirectTo?: string;
+}
+
+export default function Form({ redirectTo }: FormProps) {
   const t = useTranslations('login');
-  const tErrors = useTranslations('errors');
-  const [serverError, setServerError] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { serverError, isSubmitting, submitAction } = useActionSubmit();
 
   const {
     register,
@@ -25,41 +27,17 @@ export default function Form() {
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = async (data: LoginFormData) => {
-    setIsSubmitting(true);
-    setServerError('');
-
-    try {
-      const formData = new FormData();
-      formData.append('usernameOrEmail', data.usernameOrEmail);
-      formData.append('password', data.password);
-
-      const result = await loginAction(formData);
-
-      if (!result.success && result.error) {
-        if (result.error.fieldErrors) {
-          for (const [field, messages] of Object.entries(result.error.fieldErrors)) {
-            if (field in loginSchema.shape) {
-              setError(field as keyof LoginFormData, { message: messages[0] });
-            }
+  const onSubmit = (data: LoginFormData) =>
+    submitAction(
+      () => loginAction(data, redirectTo),
+      (fieldErrors) => {
+        for (const [field, messages] of Object.entries(fieldErrors)) {
+          if (field in loginSchema.shape) {
+            setError(field as keyof LoginFormData, { message: messages[0] });
           }
         }
-
-        const code = result.error.code ?? 'DEFAULT';
-        const errorMsg =
-          tErrors.has(code) ? tErrors(code, result.error.meta) : tErrors('DEFAULT');
-        setServerError(errorMsg);
       }
-    } catch (error: unknown) {
-      const digest = (error as { digest?: string })?.digest;
-      if (typeof digest === 'string' && digest.startsWith('NEXT_REDIRECT')) {
-        throw error;
-      }
-      setServerError(tErrors('DEFAULT'));
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+    );
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

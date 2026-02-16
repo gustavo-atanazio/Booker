@@ -1,35 +1,34 @@
 import { cache } from 'react';
 import { redirect } from 'next/navigation';
-import {
-  getAccessToken,
-  getRefreshToken,
-  getUserData,
-} from '@/lib/auth/cookies';
-import { UserDTO } from '@/lib/types/auth.types';
+import { getAccessToken, getUserProfile } from '@/lib/auth/cookies';
+import { decodeJwtPayload } from '@/lib/auth/jwt';
+import type { UserDTO, UserRole } from '@/lib/types/auth.types';
 
-// Redirects to /login if no valid session. Cached per request.
-export const verifySession = cache(async (): Promise<UserDTO> => {
+async function resolveUser(): Promise<UserDTO | null> {
   const accessToken = await getAccessToken();
-  const refreshToken = await getRefreshToken();
+  if (!accessToken) return null;
 
-  if (!accessToken && !refreshToken) {
-    redirect('/login');
-  }
+  const payload = decodeJwtPayload(accessToken);
+  if (!payload?.role) return null;
 
-  const user = await getUserData();
-  if (!user) {
-    redirect('/login');
-  }
+  const profile = await getUserProfile();
+  if (!profile) return null;
 
+  return { ...profile, role: payload.role as UserRole };
+}
+
+export const verifySession = cache(async (): Promise<UserDTO> => {
+  const user = await resolveUser();
+  if (!user) redirect('/login');
   return user;
 });
 
-// Returns null if not authenticated. Cached per request.
 export const getUser = cache(async (): Promise<UserDTO | null> => {
-  const accessToken = await getAccessToken();
-  const refreshToken = await getRefreshToken();
+  return await resolveUser();
+});
 
-  if (!accessToken && !refreshToken) return null;
-
-  return await getUserData();
+export const verifyAdmin = cache(async (): Promise<UserDTO> => {
+  const user = await verifySession();
+  if (user.role !== 'ADMIN') redirect('/dashboard');
+  return user;
 });

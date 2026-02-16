@@ -1,11 +1,13 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect } from 'react';
-import type { UserDTO } from '@/lib/types/auth.types';
+import { createContext, useContext } from 'react';
+import type { UserDTO, UserRole } from '@/lib/types/auth.types';
 
 interface AuthContextType {
   user: UserDTO | null;
   isAuthenticated: boolean;
+  role: UserRole | null;
+  isAdmin: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -16,16 +18,12 @@ interface AuthProviderProps {
 }
 
 export function AuthProvider({ children, initialUser }: AuthProviderProps) {
-  const [user, setUser] = useState<UserDTO | null>(initialUser);
-
-  useEffect(() => {
-    setUser(initialUser);
-  }, [initialUser]);
-
-  const isAuthenticated = user !== null;
+  const isAuthenticated = initialUser !== null;
+  const role = initialUser?.role ?? null;
+  const isAdmin = role === 'ADMIN';
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated }}>
+    <AuthContext.Provider value={{ user: initialUser, isAuthenticated, role, isAdmin }}>
       {children}
     </AuthContext.Provider>
   );

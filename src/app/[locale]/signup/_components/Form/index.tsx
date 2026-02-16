@@ -4,17 +4,15 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { registerSchema, type RegisterFormData } from '@/lib/validation/auth.schema';
 import { registerAction } from '@/actions/auth.actions';
+import { useActionSubmit } from '@/hooks/useActionSubmit';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useTranslations } from 'next-intl';
-import { useState } from 'react';
 
 export default function Form() {
   const t = useTranslations('signup');
-  const tErrors = useTranslations('errors');
-  const [serverError, setServerError] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { serverError, isSubmitting, submitAction } = useActionSubmit();
 
   const {
     register,
@@ -25,44 +23,17 @@ export default function Form() {
     resolver: zodResolver(registerSchema),
   });
 
-  const onSubmit = async (data: RegisterFormData) => {
-    setIsSubmitting(true);
-    setServerError('');
-
-    try {
-      const formData = new FormData();
-      formData.append('name', data.name);
-      formData.append('username', data.username);
-      formData.append('email', data.email);
-      formData.append('password', data.password);
-      formData.append('confirmPassword', data.confirmPassword);
-
-      const result = await registerAction(formData);
-
-      if (!result.success && result.error) {
-        if (result.error.fieldErrors) {
-          for (const [field, messages] of Object.entries(result.error.fieldErrors)) {
-            if (field in registerSchema.shape) {
-              setError(field as keyof RegisterFormData, { message: messages[0] });
-            }
+  const onSubmit = (data: RegisterFormData) =>
+    submitAction(
+      () => registerAction(data),
+      (fieldErrors) => {
+        for (const [field, messages] of Object.entries(fieldErrors)) {
+          if (field in registerSchema.shape) {
+            setError(field as keyof RegisterFormData, { message: messages[0] });
           }
         }
-
-        const code = result.error.code ?? 'DEFAULT';
-        const errorMsg =
-          tErrors.has(code) ? tErrors(code, result.error.meta) : tErrors('DEFAULT');
-        setServerError(errorMsg);
       }
-    } catch (error: unknown) {
-      const digest = (error as { digest?: string })?.digest;
-      if (typeof digest === 'string' && digest.startsWith('NEXT_REDIRECT')) {
-        throw error;
-      }
-      setServerError(tErrors('DEFAULT'));
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+    );
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
