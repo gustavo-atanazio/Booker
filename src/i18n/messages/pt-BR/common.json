@@ -2,10 +2,17 @@
   "welcome": "Bem-vindo",
   "errors": {
     "INVALID_CREDENTIALS": "E-mail ou senha inválidos.",
-    "USER_NOT_FOUND": "Usuário não encontrado.",
-    "RATE_LIMITED": "Muitas tentativas. Tente novamente em {seconds}s.",
+    "RESOURCE_NOT_FOUND": "Recurso não encontrado.",
     "NETWORK_ERROR": "Erro de conexão. Verifique sua internet.",
     "SERVER_ERROR": "Erro no servidor. Tente novamente mais tarde.",
+    "VALIDATION_ERROR": "Não foi possível processar sua solicitação. Verifique suas informações e tente novamente.",
+    "ACCESS_DENIED": "Você não tem permissão para esta ação.",
+    "USERNAME_ALREADY_EXISTS": "Nome de usuário já em uso.",
+    "EMAIL_ALREADY_EXISTS": "E-mail já em uso.",
+    "INCORRECT_PASSWORD": "Senha incorreta.",
+    "INVALID_TOKEN": "Token inválido ou expirado.",
+    "TOKEN_EXPIRED": "Sessão expirada. Faça login novamente.",
+    "TYPE_MISMATCH": "Valor '{rejectedValue}' inválido para o campo '{parameter}'.",
     "DEFAULT": "Ocorreu um erro. Tente novamente."
   },
   "themes": {

@@ -5,6 +5,8 @@ import { routing } from '@/i18n/routing';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
+import { AuthProvider } from '@/providers/AuthProvider';
+import { getUser } from '@/lib/dal';
 import '../globals.css';
 
 const geistSans = Geist({
@@ -37,6 +39,8 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
 
   const messages = await getMessages();
 
+  const user = await getUser();
+
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
@@ -47,7 +51,9 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
             enableSystem
             disableTransitionOnChange
           >
-            {children}
+            <AuthProvider initialUser={user}>
+              {children}
+            </AuthProvider>
           </ThemeProvider>
         </NextIntlClientProvider>
       </body>
