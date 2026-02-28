@@ -17,7 +17,7 @@ const languages = {
   'en-US': 'English'
 } as const;
 
-function LanguageSwitcher() {
+export default function LanguageSwitcher() {
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
@@ -49,5 +49,3 @@ function LanguageSwitcher() {
     </DropdownMenu>
   );
 }
-
-export default LanguageSwitcher;

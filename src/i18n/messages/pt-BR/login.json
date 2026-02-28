@@ -4,9 +4,12 @@
     "subtitle": "Utilize seu e-mail e senha",
     "email": "E-mail",
     "emailPlaceholder": "seu@email.com",
+    "usernameOrEmail": "E-mail ou usuário",
+    "usernameOrEmailPlaceholder": "seu@email.com ou seu_usuario",
     "password": "Senha",
     "passwordPlaceholder": "Sua senha",
     "submit": "Entrar",
+    "submitting": "Entrando...",
     "noAccount": "Ainda não tem uma conta?",
     "signup": "Cadastre-se",
     "footer": "Ao entrar em nossa plataforma, você concorda com nossos Termos de Uso e Política de Privacidade."

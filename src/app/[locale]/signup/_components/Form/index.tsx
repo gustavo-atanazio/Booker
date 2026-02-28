@@ -1,166 +1,123 @@
 'use client';
 
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { registerSchema, type RegisterFormData } from '@/lib/validation/auth.schema';
+import { registerAction } from '@/actions/auth.actions';
+import { useActionSubmit } from '@/hooks/useActionSubmit';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useTranslations } from 'next-intl';
-import { useState } from 'react';
 
-function Form() {
+export default function Form() {
   const t = useTranslations('signup');
-  const [formData, setFormData] = useState({
-    name: '',
-    username: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
+  const { serverError, isSubmitting, submitAction } = useActionSubmit();
+
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm<RegisterFormData>({
+    resolver: zodResolver(registerSchema),
   });
-  const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const validatePassword = (password: string): boolean => {
-    // Strong password: min 1 uppercase, 1 lowercase, 1 digit, 1 special char
-    const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]/;
-    return strongPasswordRegex.test(password);
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const newErrors: Record<string, string> = {};
-
-    if (!validatePassword(formData.password)) {
-      newErrors.password = t('validation.weakPassword');
-    }
-
-    if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = t('validation.passwordMismatch');
-    }
-
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      return;
-    }
-
-    setErrors({});
-
-    const registerDTO = {
-      name: formData.name,
-      username: formData.username,
-      email: formData.email,
-      password: formData.password
-    };
-
-    // TODO: Send to API POST /api/auth/register
-    console.log('Register DTO:', registerDTO);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
-
-    if (errors[name]) {
-      setErrors({
-        ...errors,
-        [name]: ''
-      });
-    }
-  };
+  const onSubmit = (data: RegisterFormData) =>
+    submitAction(
+      () => registerAction(data),
+      (fieldErrors) => {
+        for (const [field, messages] of Object.entries(fieldErrors)) {
+          if (field in registerSchema.shape) {
+            setError(field as keyof RegisterFormData, { message: messages[0] });
+          }
+        }
+      }
+    );
 
   return (
-    <form onSubmit={handleSubmit} className='space-y-4'>
-      {/* Name */}
+    <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
+      {serverError && (
+        <div className='p-3 rounded bg-destructive/10 text-destructive text-sm'>
+          {serverError}
+        </div>
+      )}
+
       <div className='flex flex-col gap-1.5'>
         <Label htmlFor='name'>{t('name')}</Label>
         <Input
           id='name'
-          name='name'
           placeholder={t('namePlaceholder')}
           type='text'
-          value={formData.name}
-          onChange={handleChange}
-          minLength={2}
-          maxLength={100}
-          required
+          {...register('name')}
+          disabled={isSubmitting}
         />
+        {errors.name && (
+          <p className='text-sm text-destructive'>{errors.name.message}</p>
+        )}
       </div>
 
-      {/* Username */}
       <div className='flex flex-col gap-1.5'>
         <Label htmlFor='username'>{t('username')}</Label>
         <Input
           id='username'
-          name='username'
           placeholder={t('usernamePlaceholder')}
           type='text'
-          value={formData.username}
-          onChange={handleChange}
-          minLength={3}
-          maxLength={30}
-          required
+          {...register('username')}
+          disabled={isSubmitting}
         />
+        {errors.username && (
+          <p className='text-sm text-destructive'>{errors.username.message}</p>
+        )}
       </div>
 
-      {/* Email */}
       <div className='flex flex-col gap-1.5'>
         <Label htmlFor='email'>{t('email')}</Label>
         <Input
           id='email'
-          name='email'
           placeholder={t('emailPlaceholder')}
           type='email'
-          value={formData.email}
-          onChange={handleChange}
-          maxLength={254}
-          required
+          {...register('email')}
+          disabled={isSubmitting}
         />
+        {errors.email && (
+          <p className='text-sm text-destructive'>{errors.email.message}</p>
+        )}
       </div>
 
-      {/* Password */}
       <div className='flex flex-col gap-1.5'>
         <Label htmlFor='password'>{t('password')}</Label>
         <Input
           id='password'
-          name='password'
           placeholder={t('passwordPlaceholder')}
           type='password'
-          value={formData.password}
-          onChange={handleChange}
-          minLength={8}
-          maxLength={100}
-          required
+          {...register('password')}
+          disabled={isSubmitting}
         />
         {errors.password && (
-          <p className='text-sm text-destructive'>{errors.password}</p>
+          <p className='text-sm text-destructive'>{errors.password.message}</p>
         )}
       </div>
 
-      {/* Confirm Password */}
       <div className='flex flex-col gap-1.5'>
         <Label htmlFor='confirmPassword'>{t('confirmPassword')}</Label>
         <Input
           id='confirmPassword'
-          name='confirmPassword'
           placeholder={t('confirmPasswordPlaceholder')}
           type='password'
-          value={formData.confirmPassword}
-          onChange={handleChange}
-          minLength={8}
-          maxLength={100}
-          required
+          {...register('confirmPassword')}
+          disabled={isSubmitting}
         />
         {errors.confirmPassword && (
-          <p className='text-sm text-destructive'>{errors.confirmPassword}</p>
+          <p className='text-sm text-destructive'>
+            {errors.confirmPassword.message}
+          </p>
         )}
       </div>
 
-      <Button className='w-full mt-6' type='submit'>
-        {t('submit')}
+      <Button className='w-full mt-6' type='submit' disabled={isSubmitting}>
+        {isSubmitting ? t('submitting') : t('submit')}
       </Button>
     </form>
   );
 }
-
-export default Form;

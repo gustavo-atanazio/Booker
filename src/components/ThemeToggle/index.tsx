@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useTranslations } from 'next-intl';
 
-function ThemeToggle() {
+export default function ThemeToggle() {
   const { setTheme } = useTheme();
 
   const t = useTranslations('themes');
@@ -43,5 +43,3 @@ function ThemeToggle() {
     </DropdownMenu>
   );
 }
-
-export default ThemeToggle;

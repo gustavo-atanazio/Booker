@@ -2,30 +2,16 @@ import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/routing';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import ThemeToggle from '@/components/ThemeToggle';
-import LanguageSwitcher from '@/components/LanguageSwitcher';
+import Header from '@/components/Header';
 import { BookOpen, Sparkles, Users } from 'lucide-react';
 
-async function Home() {
+export default async function Home() {
   const t = await getTranslations('landing');
 
   return (
     <div className='min-h-screen flex flex-col'>
-      {/* Header */}
-      <header className='border-b'>
-        <div className='container mx-auto px-4 py-4 flex items-center justify-between'>
-          <h1 className='text-2xl font-bold'>Booker</h1>
-          <div className='flex items-center gap-2'>
-            <LanguageSwitcher />
-            <ThemeToggle />
-            <Button variant='ghost' asChild>
-              <Link href='/login'>{t('hero.login')}</Link>
-            </Button>
-          </div>
-        </div>
-      </header>
+      <Header />
 
-      {/* Hero Section */}
       <section className='flex-1 container mx-auto px-4 py-16 md:py-24'>
         <div className='max-w-4xl mx-auto text-center space-y-8'>
           <div className='space-y-4'>
@@ -48,7 +34,6 @@ async function Home() {
         </div>
       </section>
 
-      {/* Features Section */}
       <section className='bg-muted/50 py-16 md:py-24'>
         <div className='container mx-auto px-4'>
           <div className='max-w-4xl mx-auto space-y-12'>
@@ -108,7 +93,6 @@ async function Home() {
         </div>
       </section>
 
-      {/* CTA Section */}
       <section className='py-16 md:py-24'>
         <div className='container mx-auto px-4'>
           <div className='max-w-3xl mx-auto text-center space-y-8'>
@@ -127,14 +111,11 @@ async function Home() {
         </div>
       </section>
 
-      {/* Footer */}
       <footer className='border-t py-8'>
         <div className='container mx-auto px-4 text-center text-sm text-muted-foreground'>
-          © {new Date().getFullYear()} Booker. {t('footer.rights')}
+          &copy; {new Date().getFullYear()} Booker. {t('footer.rights')}
         </div>
       </footer>
     </div>
   );
 }
-
-export default Home;

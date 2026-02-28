@@ -5,15 +5,15 @@ import Form from './_components/Form';
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/routing';
 
-async function Signup() {
+export default async function Signup() {
   const t = await getTranslations('signup');
 
   return (
     <main className='h-dvh max-h-dvh'>
-      <section className='w-full h-full bg-background flex flex-col items-center justify-center px-6 py-8 overflow-y-auto'>
+      <section className='w-full min-h-full bg-background flex flex-col items-center justify-center p-6 overflow-y-auto'>
         <div className='max-w-lg w-full flex flex-col gap-8 md:gap-10 my-8'>
           <div className='flex justify-between items-start'>
-            <h1 className='self-start font-bold text-6xl'>
+            <h1 className='self-start font-bold text-4xl md:text-6xl'>
               Booker
             </h1>
 
@@ -57,5 +57,3 @@ async function Signup() {
     </main>
   );
 }
-
-export default Signup;

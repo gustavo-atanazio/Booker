@@ -1,0 +1,10 @@
+{
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome, {name}!",
+    "userInfo": "User Info",
+    "username": "Username",
+    "email": "Email",
+    "logout": "Logout"
+  }
+}

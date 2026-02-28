@@ -13,6 +13,7 @@
     "confirmPassword": "Confirmar senha",
     "confirmPasswordPlaceholder": "Digite a senha novamente",
     "submit": "Criar Conta",
+    "submitting": "Criando conta...",
     "hasAccount": "Já tem uma conta?",
     "login": "Fazer Login",
     "footer": "Ao criar uma conta, você concorda com nossos Termos de Uso e Política de Privacidade.",
