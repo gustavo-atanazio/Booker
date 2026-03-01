@@ -1,8 +1,9 @@
 'use client';
 
+import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { loginSchema, type LoginFormData } from '@/lib/validation/auth.schema';
+import { createLoginSchema, type LoginFormData } from '@/lib/validation/auth.schema';
 import { loginAction } from '@/actions/auth.actions';
 import { useActionSubmit } from '@/hooks/useActionSubmit';
 import { Button } from '@/components/ui/button';
@@ -16,7 +17,10 @@ interface FormProps {
 
 export default function Form({ redirectTo }: FormProps) {
   const t = useTranslations('login');
+  const tV = useTranslations('validation');
   const { serverError, isSubmitting, submitAction } = useActionSubmit();
+
+  const schema = useMemo(() => createLoginSchema(tV), [tV]);
 
   const {
     register,
@@ -24,7 +28,7 @@ export default function Form({ redirectTo }: FormProps) {
     setError,
     formState: { errors },
   } = useForm<LoginFormData>({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(schema),
   });
 
   const onSubmit = (data: LoginFormData) =>
@@ -32,7 +36,7 @@ export default function Form({ redirectTo }: FormProps) {
       () => loginAction(data, redirectTo),
       (fieldErrors) => {
         for (const [field, messages] of Object.entries(fieldErrors)) {
-          if (field in loginSchema.shape) {
+          if (field in schema.shape) {
             setError(field as keyof LoginFormData, { message: messages[0] });
           }
         }
@@ -42,7 +46,7 @@ export default function Form({ redirectTo }: FormProps) {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       {serverError && (
-        <div className='mb-4 p-3 rounded bg-destructive/10 text-destructive text-sm'>
+        <div className='bg-destructive/10 mb-4 p-3 rounded text-destructive text-sm'>
           {serverError}
         </div>
       )}
@@ -57,7 +61,7 @@ export default function Form({ redirectTo }: FormProps) {
           disabled={isSubmitting}
         />
         {errors.usernameOrEmail && (
-          <p className='text-sm text-destructive'>
+          <p className='text-destructive text-sm'>
             {errors.usernameOrEmail.message}
           </p>
         )}
@@ -73,7 +77,7 @@ export default function Form({ redirectTo }: FormProps) {
           disabled={isSubmitting}
         />
         {errors.password && (
-          <p className='text-sm text-destructive'>{errors.password.message}</p>
+          <p className='text-destructive text-sm'>{errors.password.message}</p>
         )}
       </div>
 
