@@ -2,8 +2,8 @@
   "dashboard": {
     "title": "Dashboard",
     "welcome": "Bem-vindo, {name}!",
-    "userInfo": "Informacoes do Usuario",
-    "username": "Usuario",
+    "userInfo": "Informações do Usuário",
+    "username": "Usuário",
     "email": "E-mail",
     "logout": "Sair"
   }

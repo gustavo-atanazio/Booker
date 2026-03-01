@@ -1,0 +1,10 @@
+{
+  "validation": {
+    "minLength": "Must be at least {min} characters",
+    "maxLength": "Must be at most {max} characters",
+    "email": "Invalid email address",
+    "passwordStrength": "Password must contain uppercase, lowercase, number and special character",
+    "usernameFormat": "Username can only contain letters, numbers and underscores",
+    "passwordMismatch": "Passwords don't match"
+  }
+}

@@ -1,6 +1,23 @@
 {
   "admin": {
     "title": "Painel Administrativo",
-    "welcome": "Bem-vindo, {name}. Voce tem acesso de administrador."
+    "welcome": "Bem-vindo, {name}. Voce tem acesso de administrador.",
+    "cards": {
+      "users": {
+        "title": "Usuários",
+        "description": "Gerenciar contas, funções e permissões de usuários",
+        "manage": "Gerenciar"
+      },
+      "books": {
+        "title": "Livros",
+        "description": "Gerenciar o catálogo de livros",
+        "manage": "Gerenciar"
+      },
+      "catalog": {
+        "title": "Catálogo",
+        "description": "Gerenciar gêneros e autores",
+        "manage": "Gerenciar"
+      }
+    }
   }
 }

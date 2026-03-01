@@ -1,0 +1,64 @@
+{
+  "adminUsers": {
+    "title": "User Management",
+    "description": "Manage all users registered in the system",
+    "table": {
+      "name": "Name",
+      "username": "Username",
+      "role": "Role",
+      "email": "Email",
+      "bio": "Bio",
+      "createdAt": "Created At",
+      "actions": "Actions",
+      "banned": "Banned"
+    },
+    "actions": {
+      "create": "New User",
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "createDialog": {
+      "title": "Create User",
+      "description": "Fill in the details to create a new user account.",
+      "submit": "Create User",
+      "submitting": "Creating..."
+    },
+    "editDialog": {
+      "title": "Edit User",
+      "description": "Update the user's details, role and account status.",
+      "submit": "Save Changes",
+      "submitting": "Saving..."
+    },
+    "deleteDialog": {
+      "title": "Delete User",
+      "description": "Are you sure you want to delete {name}? This action cannot be undone.",
+      "confirm": "Delete",
+      "cancel": "Cancel"
+    },
+    "fields": {
+      "name": "Name",
+      "namePlaceholder": "Full name",
+      "username": "Username",
+      "usernamePlaceholder": "username",
+      "email": "Email",
+      "emailPlaceholder": "user@example.com",
+      "password": "Password",
+      "bio": "Bio",
+      "bioPlaceholder": "Short bio (optional)",
+      "role": "Role",
+      "enabled": "Account enabled",
+      "accountNonLocked": "Account unlocked (not banned)",
+      "roles": {
+        "USER": "User",
+        "ADMIN": "Administrator"
+      }
+    },
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "pageInfo": "Page {current} of {total}"
+    },
+    "empty": "No users found.",
+    "backToDashboard": "Back to Dashboard"
+  }
+}
