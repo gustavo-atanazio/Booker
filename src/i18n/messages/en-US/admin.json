@@ -1,6 +1,23 @@
 {
   "admin": {
     "title": "Admin Panel",
-    "welcome": "Welcome, {name}. You have administrator access."
+    "welcome": "Welcome, {name}. You have administrator access.",
+    "cards": {
+      "users": {
+        "title": "Users",
+        "description": "Manage user accounts, roles and permissions",
+        "manage": "Manage"
+      },
+      "books": {
+        "title": "Books",
+        "description": "Manage the book catalog",
+        "manage": "Manage"
+      },
+      "catalog": {
+        "title": "Catalog",
+        "description": "Manage genres and authors",
+        "manage": "Manage"
+      }
+    }
   }
 }

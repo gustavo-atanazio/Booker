@@ -86,3 +86,22 @@ export async function apiPost<T>(
     body: body ? JSON.stringify(body) : undefined,
   });
 }
+
+export async function apiPatch<T>(
+  endpoint: string,
+  body?: unknown,
+  options?: RequestInit
+) {
+  return apiFetch<T>(endpoint, {
+    ...options,
+    method: 'PATCH',
+    body: body ? JSON.stringify(body) : undefined,
+  });
+}
+
+export async function apiDelete<T>(
+  endpoint: string,
+  options?: RequestInit
+) {
+  return apiFetch<T>(endpoint, { ...options, method: 'DELETE' });
+}

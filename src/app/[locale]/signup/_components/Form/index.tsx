@@ -1,8 +1,9 @@
 'use client';
 
+import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { registerSchema, type RegisterFormData } from '@/lib/validation/auth.schema';
+import { createRegisterSchema, type RegisterFormData } from '@/lib/validation/auth.schema';
 import { registerAction } from '@/actions/auth.actions';
 import { useActionSubmit } from '@/hooks/useActionSubmit';
 import { Button } from '@/components/ui/button';
@@ -12,7 +13,10 @@ import { useTranslations } from 'next-intl';
 
 export default function Form() {
   const t = useTranslations('signup');
+  const tV = useTranslations('validation');
   const { serverError, isSubmitting, submitAction } = useActionSubmit();
+
+  const schema = useMemo(() => createRegisterSchema(tV), [tV]);
 
   const {
     register,
@@ -20,7 +24,7 @@ export default function Form() {
     setError,
     formState: { errors },
   } = useForm<RegisterFormData>({
-    resolver: zodResolver(registerSchema),
+    resolver: zodResolver(schema),
   });
 
   const onSubmit = (data: RegisterFormData) =>
@@ -28,7 +32,7 @@ export default function Form() {
       () => registerAction(data),
       (fieldErrors) => {
         for (const [field, messages] of Object.entries(fieldErrors)) {
-          if (field in registerSchema.shape) {
+          if (field in schema.shape) {
             setError(field as keyof RegisterFormData, { message: messages[0] });
           }
         }
@@ -38,7 +42,7 @@ export default function Form() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
       {serverError && (
-        <div className='p-3 rounded bg-destructive/10 text-destructive text-sm'>
+        <div className='bg-destructive/10 p-3 rounded text-destructive text-sm'>
           {serverError}
         </div>
       )}
@@ -53,7 +57,7 @@ export default function Form() {
           disabled={isSubmitting}
         />
         {errors.name && (
-          <p className='text-sm text-destructive'>{errors.name.message}</p>
+          <p className='text-destructive text-sm'>{errors.name.message}</p>
         )}
       </div>
 
@@ -67,7 +71,7 @@ export default function Form() {
           disabled={isSubmitting}
         />
         {errors.username && (
-          <p className='text-sm text-destructive'>{errors.username.message}</p>
+          <p className='text-destructive text-sm'>{errors.username.message}</p>
         )}
       </div>
 
@@ -81,7 +85,7 @@ export default function Form() {
           disabled={isSubmitting}
         />
         {errors.email && (
-          <p className='text-sm text-destructive'>{errors.email.message}</p>
+          <p className='text-destructive text-sm'>{errors.email.message}</p>
         )}
       </div>
 
@@ -95,7 +99,7 @@ export default function Form() {
           disabled={isSubmitting}
         />
         {errors.password && (
-          <p className='text-sm text-destructive'>{errors.password.message}</p>
+          <p className='text-destructive text-sm'>{errors.password.message}</p>
         )}
       </div>
 
@@ -109,13 +113,13 @@ export default function Form() {
           disabled={isSubmitting}
         />
         {errors.confirmPassword && (
-          <p className='text-sm text-destructive'>
+          <p className='text-destructive text-sm'>
             {errors.confirmPassword.message}
           </p>
         )}
       </div>
 
-      <Button className='w-full mt-6' type='submit' disabled={isSubmitting}>
+      <Button className='mt-6 w-full' type='submit' disabled={isSubmitting}>
         {isSubmitting ? t('submitting') : t('submit')}
       </Button>
     </form>

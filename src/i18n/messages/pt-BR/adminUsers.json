@@ -1,0 +1,64 @@
+{
+  "adminUsers": {
+    "title": "Gerenciamento de Usuários",
+    "description": "Gerencie todos os usuários cadastrados no sistema",
+    "table": {
+      "name": "Nome",
+      "username": "Usuário",
+      "role": "Função",
+      "email": "E-mail",
+      "bio": "Bio",
+      "createdAt": "Criado em",
+      "actions": "Ações",
+      "banned": "Banido"
+    },
+    "actions": {
+      "create": "Novo Usuário",
+      "edit": "Editar",
+      "delete": "Excluir"
+    },
+    "createDialog": {
+      "title": "Criar Usuário",
+      "description": "Preencha os dados para criar uma nova conta de usuário.",
+      "submit": "Criar Usuário",
+      "submitting": "Criando..."
+    },
+    "editDialog": {
+      "title": "Editar Usuário",
+      "description": "Atualize os dados, função e status da conta do usuário.",
+      "submit": "Salvar Alterações",
+      "submitting": "Salvando..."
+    },
+    "deleteDialog": {
+      "title": "Excluir Usuário",
+      "description": "Tem certeza que deseja excluir {name}? Esta ação não pode ser desfeita.",
+      "confirm": "Excluir",
+      "cancel": "Cancelar"
+    },
+    "fields": {
+      "name": "Nome",
+      "namePlaceholder": "Nome completo",
+      "username": "Usuário",
+      "usernamePlaceholder": "nome_de_usuario",
+      "email": "E-mail",
+      "emailPlaceholder": "usuario@exemplo.com",
+      "password": "Senha",
+      "bio": "Bio",
+      "bioPlaceholder": "Breve bio (opcional)",
+      "role": "Função",
+      "enabled": "Conta ativa",
+      "accountNonLocked": "Conta desbloqueada (não banida)",
+      "roles": {
+        "USER": "Usuário",
+        "ADMIN": "Administrador"
+      }
+    },
+    "pagination": {
+      "previous": "Anterior",
+      "next": "Próximo",
+      "pageInfo": "Página {current} de {total}"
+    },
+    "empty": "Nenhum usuário encontrado.",
+    "backToDashboard": "Voltar ao Painel"
+  }
+}
