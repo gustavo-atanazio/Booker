@@ -15,7 +15,9 @@ const eslintConfig = [
     rules: {
       'semi': ['error', 'always'],
       'quotes': ['error', 'single'],
-      'jsx-quotes': ['error', 'prefer-single']
+      'jsx-quotes': ['error', 'prefer-single'],
+      'arrow-parens': ['error', 'as-needed'],
+      'import/prefer-default-export': 'warn'
     }
   }
 ];

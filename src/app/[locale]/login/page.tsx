@@ -1,62 +1,154 @@
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import ThemeToggle from '@/components/ThemeToggle';
-import LanguageSwitcher from '@/components/LanguageSwitcher';
-import Form from './_components/Form';
-import { getTranslations } from 'next-intl/server';
-import { Link } from '@/i18n/routing';
+'use client';
 
-type SearchParams = Promise<{ redirect?: string }>;
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { Eye, EyeOff } from 'lucide-react';
 
-export default async function Login(props: { searchParams: SearchParams }) {
-  const searchParams = await props.searchParams;
-  const t = await getTranslations('login');
+import Logo from '@/components/Logo';
+
+type Mode = 'login' | 'register';
+
+function Login() {
+  const [mode, setMode] = useState<Mode>('login');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [remember, setRemember] = useState(false);
+  const router = useRouter();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    router.push('/profile');
+  };
 
   return (
-    <main className='h-dvh max-h-dvh'>
-      <section className='w-full min-h-full bg-background flex flex-col items-center justify-center p-6'>
-        <div className='max-w-lg flex flex-col gap-8 md:gap-10'>
-          <div className='flex justify-between'>
-            <Link className='self-start font-bold text-4xl md:text-6xl' href='/'>
-              Booker
-            </Link>
+    <div className='flex flex-col justify-center items-center bg-black px-4 py-12 pb-28 md:pb-12 min-h-screen'>
+      <Link href='/' className='mb-8'>
+        <Logo size='lg'/>
+      </Link>
 
-            <div className='self-end flex gap-2'>
-              <LanguageSwitcher />
-              <ThemeToggle />
+      <div className='bg-white shadow-2xl p-8 rounded-3xl w-full max-w-sm'>
+        <div className='flex bg-gray-100 mb-6 p-1 rounded-full'>
+          <button
+            onClick={() => setMode('login')}
+            className={`flex-1 py-2 text-sm font-semibold rounded-full transition-all ${
+              mode === 'login' ? 'bg-black text-white shadow-sm' : 'text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            Entrar
+          </button>
+
+          <button
+            onClick={() => setMode('register')}
+            className={`flex-1 py-2 text-sm font-semibold rounded-full transition-all ${
+              mode === 'register' ? 'bg-black text-white shadow-sm' : 'text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            Criar Conta
+          </button>
+        </div>
+
+        <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
+          {mode === 'register' && (
+            <div>
+              <label className='block mb-1.5 font-medium text-gray-700 text-sm'>Nome</label>
+
+              <input
+                type='text'
+                value={name}
+                onChange={e => setName(e.target.value)}
+                placeholder='Seu nome completo'
+                required
+                className='bg-white px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-400 w-full text-gray-900 text-sm transition-all placeholder-gray-400'
+              />
+            </div>
+          )}
+
+          <div>
+            <label className='block mb-1.5 font-medium text-gray-700 text-sm'>Email</label>
+
+            <input
+              type='email'
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              placeholder='seu@email.com'
+              required
+              className='bg-white px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-400 w-full text-gray-900 text-sm transition-all placeholder-gray-400'
+            />
+          </div>
+
+          <div>
+            <label className='block mb-1.5 font-medium text-gray-700 text-sm'>Senha</label>
+
+            <div className='relative'>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                placeholder='••••••••'
+                required
+                className='bg-white px-4 py-3 pr-11 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-400 w-full text-gray-900 text-sm transition-all placeholder-gray-400'
+              />
+
+              <button
+                type='button'
+                onClick={() => setShowPassword(p => !p)}
+                className='top-1/2 right-3.5 absolute text-gray-400 hover:text-gray-600 transition-colors -translate-y-1/2'
+              >
+                {showPassword ? <EyeOff className='w-4 h-4' /> : <Eye className='w-4 h-4' />}
+              </button>
             </div>
           </div>
 
-          <Card className='w-full'>
-            <CardHeader>
-              <CardTitle className='text-2xl font-bold tracking-tighter'>
-                {t('title')}
-              </CardTitle>
+          {mode === 'login' && (
+            <div className='flex justify-between items-center'>
+              <label className='flex items-center gap-2 cursor-pointer'>
+                <input
+                  type='checkbox'
+                  checked={remember}
+                  onChange={e => setRemember(e.target.checked)}
+                  className='border-gray-300 rounded w-4 h-4 accent-yellow-400'
+                />
 
-              <CardDescription className='!mt-0'>
-                {t('subtitle')}
-              </CardDescription>
-            </CardHeader>
+                <span className='text-gray-600 text-sm'>Lembrar de mim</span>
+              </label>
 
-            <CardContent>
-              <Form redirectTo={searchParams.redirect} />
-            </CardContent>
+              <button type='button' className='font-medium text-yellow-500 hover:text-yellow-600 text-sm transition-colors'>
+                Esqueceu a senha?
+              </button>
+            </div>
+          )}
 
-            <CardFooter>
-              <p className='text-muted-foreground text-center text-sm'>
-                {t('footer')}
-              </p>
-            </CardFooter>
-          </Card>
+          <button
+            type='submit'
+            className='bg-black hover:bg-gray-800 mt-2 py-3 rounded-xl w-full font-semibold text-white transition-colors'
+          >
+            {mode === 'login' ? 'Entrar' : 'Criar Conta'}
+          </button>
+        </form>
 
-          <div className='flex flex-col gap-0.5 text-center text-base font-medium md:text-lg'>
-            <span>{t('noAccount')}</span>
-
-            <Link href='/signup' className='text-muted-foreground underline'>
-              {t('signup')}
-            </Link>
-          </div>
-        </div>
-      </section>
-    </main>
+        <p className='mt-5 text-gray-500 text-sm text-center'>
+          {mode === 'login' ? (
+            <>
+              Não tem uma conta?{' '}
+              <button onClick={() => setMode('register')} className='font-semibold text-yellow-500 hover:text-yellow-600 transition-colors'>
+                Criar conta
+              </button>
+            </>
+          ) : (
+            <>
+              Já tem uma conta?{' '}
+              <button onClick={() => setMode('login')} className='font-semibold text-yellow-500 hover:text-yellow-600 transition-colors'>
+                Entrar
+              </button>
+            </>
+          )}
+        </p>
+      </div>
+    </div>
   );
 }
+
+export default Login;

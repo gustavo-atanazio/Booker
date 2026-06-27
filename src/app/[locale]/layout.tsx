@@ -1,12 +1,18 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
-import { ThemeProvider } from '@/components/ThemeProvider';
 import { routing } from '@/i18n/routing';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
+
 import { AuthProvider } from '@/providers/AuthProvider';
+
 import { getUser } from '@/lib/dal';
+
+import { ThemeProvider } from '@/components/ThemeProvider';
+import BottomNav from '@/components/BottomNav';
+import Header from '@/components/Header';
+
 import '../globals.css';
 
 const geistSans = Geist({
@@ -20,7 +26,7 @@ const geistMono = Geist_Mono({
 });
 
 export function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }));
+  return routing.locales.map(locale => ({ locale }));
 }
 
 export const metadata: Metadata = { title: 'Booker' };
@@ -30,7 +36,7 @@ interface RootLayoutProps {
   params: Promise<{ locale: string }>;
 }
 
-export default async function RootLayout({ children, params }: RootLayoutProps) {
+async function RootLayout({ children, params }: RootLayoutProps) {
   const { locale } = await params;
 
   if (!routing.locales.includes(locale as (typeof routing.locales)[number])) {
@@ -52,7 +58,13 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
             disableTransitionOnChange
           >
             <AuthProvider initialUser={user}>
-              {children}
+              <div className='bg-gray-50 min-h-screen'>
+                <Header/>
+
+                <main>{children}</main>
+
+                <BottomNav/>
+              </div>
             </AuthProvider>
           </ThemeProvider>
         </NextIntlClientProvider>
@@ -60,3 +72,5 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
     </html>
   );
 }
+
+export default RootLayout;

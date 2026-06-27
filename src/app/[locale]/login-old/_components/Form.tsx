@@ -15,7 +15,7 @@ interface FormProps {
   redirectTo?: string;
 }
 
-export default function Form({ redirectTo }: FormProps) {
+function Form({ redirectTo }: FormProps) {
   const t = useTranslations('login');
   const tV = useTranslations('validation');
   const { serverError, isSubmitting, submitAction } = useActionSubmit();
@@ -87,3 +87,5 @@ export default function Form({ redirectTo }: FormProps) {
     </form>
   );
 }
+
+export default Form;
