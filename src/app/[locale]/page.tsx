@@ -8,33 +8,47 @@ import ActivityCard from '@/components/ActivityCard';
 import ImageWithFallback from '@/components/ImageWithFallback';
 
 import activities from '@/data/activities';
-import ALL_GENRES from '@/data/genres';
-import { classicBooks, featuredBooks, popularBooks } from './_data';
+
+import { loadData } from '@/services/api';
+
+import { PUBLIC_ENDPOINT, BOOKS_ENPOINT, GENRES_ENDPOINT } from '@/constants/api';
+
+import type { BookSummary } from '@/types/Book';
+import type Genre from '@/types/Genre';
 
 function Home() {
   const [bgIndex, setBgIndex] = useState(0);
   const [fading, setFading] = useState(false);
+  const [books, setBooks] = useState<BookSummary[]>([]);
+  const [genres, setGenres] = useState<Genre[]>([]);
 
   useEffect(() => {
+    loadData<BookSummary>(PUBLIC_ENDPOINT + BOOKS_ENPOINT, setBooks);
+    loadData<Genre>(PUBLIC_ENDPOINT + GENRES_ENDPOINT, setGenres);
+  }, []);
+
+  useEffect(() => {
+    if (books.length === 0) return;
+
     const interval = setInterval(() => {
       setFading(true);
 
       setTimeout(() => {
-        setBgIndex(prev => (prev + 1) % featuredBooks.length);
+        setBgIndex(prev => (prev + 1) % books.length);
         setFading(false);
       }, 600);
     }, 5500);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [books.length]);
 
-  const featured = featuredBooks[bgIndex];
+  const featured = books.length > 0 ? books[bgIndex] : null;
 
   return (
     <div className='pb-24 md:pb-8'>
       <section className='relative bg-black overflow-hidden text-white' style={{ minHeight: '88vh' }}>
 
-        {featuredBooks.map((book, i) => (
+        {books.map((book, i) => (
           <div
             key={book.id}
             className='absolute inset-0 transition-opacity duration-1000'
@@ -116,7 +130,7 @@ function Home() {
               </div>
 
               <div className='flex gap-2 mt-10'>
-                {featuredBooks.map((_, i) => (
+                {books.map((_, i) => (
                   <button
                     key={i}
                     onClick={() => { setFading(false); setBgIndex(i); }}
@@ -128,48 +142,56 @@ function Home() {
               </div>
             </div>
 
-            <div className='hidden lg:flex flex-col flex-shrink-0 items-center w-52 xl:w-60'>
-              <div className='flex items-center self-start gap-1.5 mb-3'>
-                <span className='bg-yellow-400 rounded-full w-1 h-4' />
-                <span className='font-semibold text-yellow-400 text-xs uppercase tracking-widest'>Em Destaque</span>
-              </div>
+            {featured && (
+              <div className='hidden lg:flex flex-col flex-shrink-0 items-center w-52 xl:w-60'>
+                <div className='flex items-center self-start gap-1.5 mb-3'>
+                  <span className='bg-yellow-400 rounded-full w-1 h-4' />
+                  <span className='font-semibold text-yellow-400 text-xs uppercase tracking-widest'>Em Destaque</span>
+                </div>
 
-              <Link
-                href={`/book/${featured.id}`}
-                className={`block w-full relative transition-opacity duration-600 ${fading ? 'opacity-0' : 'opacity-100'}`}
-              >
-                <div
-                  className='absolute -inset-3 opacity-30 blur-xl rounded-3xl transition-all duration-1000'
-                  style={{ background: 'radial-gradient(ellipse, #FACC15 0%, transparent 70%)' }}
-                />
-
-                <div className='group relative shadow-2xl rounded-2xl ring-1 ring-white/10 overflow-hidden'>
-                  <ImageWithFallback
-                    src={featured.coverUrl}
-                    alt={featured.title}
-                    className='w-full object-cover group-hover:scale-105 transition-transform duration-500'
-                    style={{ aspectRatio: '2/3' }}
+                <Link
+                  href={`/book/${featured.id}`}
+                  className={`block w-full relative transition-opacity duration-600 ${fading ? 'opacity-0' : 'opacity-100'}`}
+                >
+                  <div
+                    className='absolute -inset-3 opacity-30 blur-xl rounded-3xl transition-all duration-1000'
+                    style={{ background: 'radial-gradient(ellipse, #FACC15 0%, transparent 70%)' }}
                   />
 
-                  <div className='absolute inset-0 flex justify-center items-end bg-black/0 group-hover:bg-black/50 pb-5 transition-colors duration-300'>
-                    <div className='flex items-center gap-1.5 bg-yellow-400 opacity-0 group-hover:opacity-100 px-4 py-2 rounded-full font-bold text-black text-xs transition-opacity duration-300'>
-                      Ver mais <ArrowRight className='w-3.5 h-3.5'/>
+                  <div className='group relative shadow-2xl rounded-2xl ring-1 ring-white/10 overflow-hidden'>
+                    <ImageWithFallback
+                      src={featured.coverUrl}
+                      alt={featured.title}
+                      className='w-full object-cover group-hover:scale-105 transition-transform duration-500'
+                      style={{ aspectRatio: '2/3' }}
+                    />
+
+                    <div className='absolute inset-0 flex justify-center items-end bg-black/0 group-hover:bg-black/50 pb-5 transition-colors duration-300'>
+                      <div className='flex items-center gap-1.5 bg-yellow-400 opacity-0 group-hover:opacity-100 px-4 py-2 rounded-full font-bold text-black text-xs transition-opacity duration-300'>
+                        Ver mais <ArrowRight className='w-3.5 h-3.5'/>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Link>
+                </Link>
 
-              <div className={`mt-4 w-full transition-opacity duration-600 ${fading ? 'opacity-0' : 'opacity-100'}`}>
-                <p className='font-bold text-white text-sm truncate'>{featured.title}</p>
-                <p className='mt-0.5 text-gray-400 text-xs'>{featured.author}</p>
+                <div className={`mt-4 w-full transition-opacity duration-600 ${fading ? 'opacity-0' : 'opacity-100'}`}>
+                  <p className='font-bold text-white text-sm truncate'>{featured.title}</p>
+                  <p className='mt-0.5 text-gray-400 text-xs'>{featured.authorName}</p>
 
-                <div className='flex items-center gap-1.5 mt-2'>
-                  <Star className='fill-yellow-400 w-3 h-3 text-yellow-400'/>
-                  <span className='font-bold text-yellow-400 text-xs'>{featured.rating.toFixed(1)}</span>
-                  <span className='text-gray-600 text-xs'>· {featured.genre}</span>
+                  <div className='flex items-center gap-1.5 mt-2'>
+                    <Star className='fill-yellow-400 w-3 h-3 text-yellow-400'/>
+
+                    <span className='font-bold text-yellow-400 text-xs'>{featured.rating.toFixed(1)}</span>
+
+                    {featured.genres.map((genre, i) => (
+                      <span className='text-gray-600 text-xs' key={i}>
+                        · {genre}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
 
@@ -199,7 +221,7 @@ function Home() {
             className='flex gap-3 -mx-4 px-4 overflow-x-auto'
             style={{ scrollbarWidth: 'none' }}
           >
-            {popularBooks.map((book, idx) => (
+            {books.map((book, idx) => (
               <Link
                 key={book.id}
                 href={`/book/${book.id}`}
@@ -220,12 +242,13 @@ function Home() {
 
                   <div className='top-1.5 right-1.5 absolute flex items-center gap-0.5 bg-black/60 backdrop-blur-sm px-1.5 py-0.5 rounded-full'>
                     <Star className='fill-yellow-400 w-2.5 h-2.5 text-yellow-400'/>
+
                     <span className='font-bold text-[10px] text-white'>{book.rating.toFixed(1)}</span>
                   </div>
                 </div>
 
                 <p className='mt-1.5 font-medium text-[11px] text-gray-900 truncate'>{book.title}</p>
-                <p className='text-[10px] text-gray-500 truncate'>{book.author}</p>
+                <p className='text-[10px] text-gray-500 truncate'>{book.authorName}</p>
               </Link>
             ))}
           </div>
@@ -253,7 +276,7 @@ function Home() {
               </h3>
 
               <div className='flex flex-col gap-4'>
-                {classicBooks.map(book => (
+                {books.map(book => (
                   <Link
                     key={book.id}
                     href={`/book/${book.id}`}
@@ -267,12 +290,12 @@ function Home() {
 
                     <div className='flex-1 min-w-0'>
                       <p className='font-semibold text-gray-900 text-sm truncate'>{book.title}</p>
-                      <p className='text-gray-500 text-xs'>{book.author}</p>
+                      <p className='text-gray-500 text-xs'>{book.authorName}</p>
 
                       <div className='flex items-center gap-1 mt-1'>
                         <Star className='fill-yellow-400 w-3 h-3 text-yellow-400'/>
 
-                        <span className='font-medium text-gray-600 text-xs'>{book.rating}</span>
+                        <span className='font-medium text-gray-600 text-xs'>{book.rating.toFixed(1)}</span>
                         <span className='text-gray-400 text-xs'>({book.ratingsCount.toLocaleString('pt-BR')})</span>
                       </div>
                     </div>
@@ -287,13 +310,13 @@ function Home() {
               </h3>
 
               <div className='flex flex-wrap gap-2'>
-                {ALL_GENRES.map(genre => (
+                {genres.map(genre => (
                   <Link
-                    key={genre}
-                    href={`/search?genre=${encodeURIComponent(genre)}`}
+                    key={genre.id}
+                    href={`/search?genre=${encodeURIComponent(genre.name)}`}
                     className='bg-gray-100 hover:bg-yellow-400 px-3 py-1.5 rounded-full font-medium text-gray-700 hover:text-black text-xs transition-colors'
                   >
-                    {genre}
+                    {genre.name}
                   </Link>
                 ))}
               </div>

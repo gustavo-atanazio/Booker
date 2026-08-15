@@ -3,10 +3,10 @@ import { Star } from 'lucide-react';
 
 import ImageWithFallback from '@/components/ImageWithFallback';
 
-import type Book from '@/types/Book';
+import type { BookSummary } from '@/types/Book';
 
 interface BookCardProps {
-  book: Book;
+  book: BookSummary;
   showBadge?: boolean;
 }
 
@@ -23,6 +23,7 @@ function BookCard({ book, showBadge = false }: BookCardProps) {
         <div className='absolute inset-0 flex justify-center items-center bg-black/0 group-hover:bg-black/50 opacity-0 group-hover:opacity-100 transition-all duration-300'>
           <div className='flex items-center gap-1 bg-yellow-400 px-2 py-1 rounded-full text-black'>
             <Star className='fill-black w-3 h-3'/>
+
             <span className='font-bold text-xs'>{book.rating.toFixed(1)}</span>
           </div>
         </div>
@@ -38,8 +39,8 @@ function BookCard({ book, showBadge = false }: BookCardProps) {
 
       <div className='mt-2'>
         <p className='font-medium text-gray-900 text-sm truncate leading-snug'>{book.title}</p>
-        <p className='text-gray-500 text-xs truncate'>{book.author}</p>
-        <p className='text-gray-400 text-xs'>{book.year}</p>
+        <p className='text-gray-500 text-xs truncate'>{book.authorName}</p>
+        <p className='text-gray-400 text-xs'>{book.releaseYear}</p>
       </div>
     </Link>
   );
