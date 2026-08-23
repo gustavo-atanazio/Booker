@@ -7,7 +7,7 @@ import {
 } from '@/lib/auth/constants';
 import { decodeJwtPayload } from '@/lib/auth/jwt';
 
-const protectedRoutes = ['/dashboard', '/profile', '/settings'];
+const protectedRoutes = ['/profile', '/settings'];
 const adminRoutes = ['/admin'];
 const authRoutes = ['/login', '/signup'];
 
@@ -51,7 +51,7 @@ export function handleAuth(
     const role = getUserRoleFromToken(request);
     if (role !== 'ADMIN') {
       return NextResponse.redirect(
-        new URL(`/${locale}/dashboard`, request.url)
+        new URL(`/${locale}/profile`, request.url)
       );
     }
   }
@@ -59,10 +59,12 @@ export function handleAuth(
   if (isAuth && isAuthenticated) {
     const redirectTo = request.nextUrl.searchParams.get('redirect');
     const isSafePath =
-      redirectTo && redirectTo.startsWith('/') && !redirectTo.startsWith('//');
+      redirectTo &&
+      redirectTo.startsWith('/') &&
+      !redirectTo.startsWith('//');
     const redirectUrl = isSafePath
       ? new URL(redirectTo, request.url)
-      : new URL(`/${locale}/dashboard`, request.url);
+      : new URL(`/${locale}/profile`, request.url);
     return NextResponse.redirect(redirectUrl);
   }
 

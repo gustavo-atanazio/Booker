@@ -1,10 +1,12 @@
 {
   "validation": {
+    "required": "Campo obrigatório",
     "minLength": "Deve ter pelo menos {min} caracteres",
     "maxLength": "Deve ter no máximo {max} caracteres",
     "email": "Endereço de e-mail inválido",
     "passwordStrength": "A senha deve conter letras maiúsculas, minúsculas, número e caractere especial",
     "usernameFormat": "O nome de usuário só pode conter letras, números e underscores",
-    "passwordMismatch": "As senhas não coincidem"
+    "passwordMismatch": "As senhas não coincidem",
+    "invalidFormat": "Formato inválido"
   }
 }

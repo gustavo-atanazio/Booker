@@ -1,6 +1,10 @@
-'use server';
-
-import { ApiResponse, ApiError, ApiErrorCode } from '@/lib/types/api.types';
+import {
+  type ApiResponse,
+  type ApiError,
+  ApiErrorCode,
+  type Page,
+} from '@/lib/types/api.types';
+import type { Dispatch, SetStateAction } from 'react';
 
 const API_BASE_URL = process.env.API_URL || 'http://localhost:8080';
 
@@ -8,7 +12,7 @@ const HTTP_STATUS_TO_ERROR_CODE: Record<number, ApiErrorCode> = {
   400: ApiErrorCode.VALIDATION_ERROR,
   401: ApiErrorCode.INVALID_CREDENTIALS,
   403: ApiErrorCode.ACCESS_DENIED,
-  404: ApiErrorCode.RESOURCE_NOT_FOUND,
+  404: ApiErrorCode.RESOURCE_NOT_FOUND
 };
 
 function resolveErrorCode(status: number, responseCode?: string): string {
@@ -26,7 +30,7 @@ function extractFieldErrors(
   return fieldErrors as Record<string, string>;
 }
 
-export async function apiFetch<T>(
+async function apiFetch<T>(
   endpoint: string,
   options: RequestInit = {}
 ): Promise<ApiResponse<T>> {
@@ -37,18 +41,20 @@ export async function apiFetch<T>(
       ...options,
       headers: {
         'Content-Type': 'application/json',
-        ...options.headers,
-      },
+        ...options.headers
+      }
     });
 
     if (response.ok) {
       const data = await response.json().catch(() => null);
-      return { data, success: true };
+
+      return {
+        data,
+        success: true
+      };
     }
 
-    const errorData = await response.json().catch(() => ({
-      message: response.statusText,
-    }));
+    const errorData = await response.json().catch(() => ({ message: response.statusText }));
 
     const meta = errorData.meta as Record<string, unknown> | undefined;
 
@@ -58,24 +64,31 @@ export async function apiFetch<T>(
       message: errorData.message || errorData.error || response.statusText,
       timestamp: errorData.timestamp,
       meta,
-      fieldErrors: extractFieldErrors(meta),
+      fieldErrors: extractFieldErrors(meta)
     };
 
-    return { error, success: false };
+    return {
+      error,
+      success: false
+    };
   } catch (error) {
     const apiError: ApiError = {
       code: ApiErrorCode.NETWORK_ERROR,
-      message: error instanceof Error ? error.message : 'Network request failed',
+      message: error instanceof Error ? error.message : 'Network request failed'
     };
-    return { error: apiError, success: false };
+
+    return {
+      error: apiError,
+      success: false
+    };
   }
 }
 
-export async function apiGet<T>(endpoint: string, options?: RequestInit) {
+async function apiGet<T>(endpoint: string, options?: RequestInit) {
   return apiFetch<T>(endpoint, { ...options, method: 'GET' });
 }
 
-export async function apiPost<T>(
+async function apiPost<T>(
   endpoint: string,
   body?: unknown,
   options?: RequestInit
@@ -83,11 +96,11 @@ export async function apiPost<T>(
   return apiFetch<T>(endpoint, {
     ...options,
     method: 'POST',
-    body: body ? JSON.stringify(body) : undefined,
+    body: body ? JSON.stringify(body) : undefined
   });
 }
 
-export async function apiPatch<T>(
+async function apiPatch<T>(
   endpoint: string,
   body?: unknown,
   options?: RequestInit
@@ -95,13 +108,28 @@ export async function apiPatch<T>(
   return apiFetch<T>(endpoint, {
     ...options,
     method: 'PATCH',
-    body: body ? JSON.stringify(body) : undefined,
+    body: body ? JSON.stringify(body) : undefined
   });
 }
 
-export async function apiDelete<T>(
+async function apiDelete<T>(
   endpoint: string,
   options?: RequestInit
 ) {
   return apiFetch<T>(endpoint, { ...options, method: 'DELETE' });
 }
+
+async function loadData<T>(endpoint: string, setState: Dispatch<SetStateAction<T[]>>) {
+  const response = await apiGet<Page<T>>(endpoint);
+
+  if (response.data) setState(response.data.content);
+}
+
+export {
+  apiFetch,
+  apiGet,
+  apiPost,
+  apiPatch,
+  apiDelete,
+  loadData,
+};

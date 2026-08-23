@@ -1,16 +1,34 @@
-type Book = {
-  id: string;
+import type DefaultEntity from '@/types/DefaultEntity';
+import type Author from '@/types/Author';
+import type Genre from '@/types/Genre';
+
+type Book = DefaultEntity & {
   title: string;
-  author: string;
+  synopsis: string;
+  pageCount: number;
+  author: Author;
+  genres: Genre[];
   coverUrl: string;
-  year: number;
-  pages: number;
-  genre: string;
+  releaseYear: number;
   rating: number;
   ratingsCount: number;
-  description: string;
-  publisher: string;
-  isbn: string;
 };
 
+type BookSummary = Pick<Book,
+  'id' |
+  'title' |
+  'synopsis' |
+  'pageCount' |
+  'coverUrl' |
+  'createdAt' |
+  'updatedAt' |
+  'releaseYear' |
+  'rating' |
+  'ratingsCount'
+> & {
+  authorName: string;
+  genres: string[];
+};
+
+export { BookSummary };
 export default Book;

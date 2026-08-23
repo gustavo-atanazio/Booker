@@ -2,16 +2,27 @@
   "login": {
     "title": "Sign in to your account",
     "subtitle": "Use your email and password",
+    "tabLogin": "Sign in",
+    "tabRegister": "Create account",
+    "name": "Name",
+    "namePlaceholder": "Your full name",
+    "username": "Username",
+    "usernamePlaceholder": "your_username",
     "email": "Email",
     "emailPlaceholder": "your@email.com",
     "usernameOrEmail": "Email or username",
     "usernameOrEmailPlaceholder": "your@email.com or your_username",
     "password": "Password",
-    "passwordPlaceholder": "Your password",
+    "passwordPlaceholder": "••••••••",
+    "rememberMe": "Remember me",
+    "forgotPassword": "Forgot password?",
     "submit": "Sign in",
+    "createAccountSubmit": "Create account",
     "submitting": "Signing in...",
+    "creatingAccount": "Creating account...",
     "noAccount": "Don't have an account yet?",
     "signup": "Sign up",
+    "hasAccount": "Already have an account?",
     "footer": "By signing in to our platform, you agree to our Terms of Use and Privacy Policy."
   }
 }

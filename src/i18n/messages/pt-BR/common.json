@@ -1,15 +1,36 @@
 {
   "welcome": "Bem-vindo",
+  "nav": {
+    "home": "Início",
+    "explore": "Explorar",
+    "profile": "Perfil",
+    "login": "Entrar",
+    "search": "Buscar",
+    "toggleMenu": "Alternar menu"
+  },
+  "activity": {
+    "reviewed": "avaliou",
+    "finished": "terminou de ler",
+    "wants": "quer ler",
+    "reading": "está lendo",
+    "replies": "{count, plural, one {# resposta} other {# respostas}}"
+  },
   "errors": {
     "INVALID_CREDENTIALS": "E-mail ou senha inválidos.",
+    "AUTHENTICATION_FAILED": "Falha na autenticação.",
     "RESOURCE_NOT_FOUND": "Recurso não encontrado.",
     "NETWORK_ERROR": "Erro de conexão. Verifique sua internet.",
     "SERVER_ERROR": "Erro no servidor. Tente novamente mais tarde.",
+    "INTERNAL_ERROR": "Erro interno no servidor.",
     "VALIDATION_ERROR": "Não foi possível processar sua solicitação. Verifique suas informações e tente novamente.",
+    "INVALID_ARGUMENT": "Informação inválida fornecida.",
     "ACCESS_DENIED": "Você não tem permissão para esta ação.",
+    "BUSINESS_RULE_VIOLATION": "Regra de negócio violada.",
     "USERNAME_ALREADY_EXISTS": "Nome de usuário já em uso.",
     "EMAIL_ALREADY_EXISTS": "E-mail já em uso.",
     "INCORRECT_PASSWORD": "Senha incorreta.",
+    "DUPLICATE_REVIEW": "Você já avaliou este livro.",
+    "COVER_ERROR": "Erro ao processar imagem de capa.",
     "INVALID_TOKEN": "Token inválido ou expirado.",
     "TOKEN_EXPIRED": "Sessão expirada. Faça login novamente.",
     "TYPE_MISMATCH": "Valor '{rejectedValue}' inválido para o campo '{parameter}'.",
@@ -21,8 +42,8 @@
     "system": "Sistema"
   },
   "userMenu": {
+    "profile": "Meu Perfil",
     "login": "Entrar",
-    "dashboard": "Dashboard",
     "settings": "Configurações",
     "admin": "Painel Admin",
     "logout": "Sair"

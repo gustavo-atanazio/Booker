@@ -1,17 +1,28 @@
 {
   "login": {
-    "title": "Entre com sua conta",
-    "subtitle": "Utilize seu e-mail e senha",
+    "title": "Acesse sua conta",
+    "subtitle": "Use seu e-mail e senha",
+    "tabLogin": "Entrar",
+    "tabRegister": "Criar conta",
+    "name": "Nome",
+    "namePlaceholder": "Seu nome completo",
+    "username": "Nome de usuário",
+    "usernamePlaceholder": "seu_usuario",
     "email": "E-mail",
     "emailPlaceholder": "seu@email.com",
-    "usernameOrEmail": "E-mail ou usuário",
+    "usernameOrEmail": "E-mail ou nome de usuário",
     "usernameOrEmailPlaceholder": "seu@email.com ou seu_usuario",
     "password": "Senha",
-    "passwordPlaceholder": "Sua senha",
+    "passwordPlaceholder": "••••••••",
+    "rememberMe": "Lembrar de mim",
+    "forgotPassword": "Esqueceu a senha?",
     "submit": "Entrar",
+    "createAccountSubmit": "Criar conta",
     "submitting": "Entrando...",
-    "noAccount": "Ainda não tem uma conta?",
-    "signup": "Cadastre-se",
-    "footer": "Ao entrar em nossa plataforma, você concorda com nossos Termos de Uso e Política de Privacidade."
+    "creatingAccount": "Criando conta...",
+    "noAccount": "Não tem uma conta ainda?",
+    "signup": "Criar conta",
+    "hasAccount": "Já tem uma conta?",
+    "footer": "Ao acessar nossa plataforma, você concorda com nossos Termos de Uso e Política de Privacidade."
   }
 }

@@ -9,18 +9,24 @@ import BookCard from '@/components/BookCard';
 import ImageWithFallback from '@/components/ImageWithFallback';
 import Pill from './_components/Pill';
 
-import { books } from '@/data/books';
-import genreCards from './_data/genreCards';
+import { loadData } from '@/services/api';
 
+import getGradient from '@/utils/getGradient';
+
+import { PUBLIC_ENDPOINT, BOOKS_ENPOINT, GENRES_ENDPOINT } from '@/constants/api';
+
+import type Genre from '@/types/Genre';
 import type Book from '@/types/Book';
+import type { BookSummary } from '@/types/Book';
 
-const allGenres = ['Todos', ...genreCards.map(g => g.name)];
 const pubYears = ['Todos os anos', '2020–2026', '2010–2019', '2000–2009', '1950–1999', 'Antes de 1950'];
 const ratings = ['Todas', '3.0+', '3.5+', '4.0+', '4.5+'];
 const sortOptions = ['Relevância', 'Maior Nota', 'Menor Nota', 'Mais Recente', 'Mais Antigo', 'A – Z', 'Z – A'];
 
 function Search() {
   const searchParams = useSearchParams();
+  const [books, setBooks] = useState<BookSummary[]>([]);
+  const [genres, setGenres] = useState<Genre[]>([]);
   const [query, setQuery] = useState('');
   const [selectedGenre, setSelectedGenre] = useState<string>('Todos');
   const [pub, setPub] = useState('Todos os anos');
@@ -29,6 +35,8 @@ function Search() {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const filterRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
+
+  const allGenres = ['Todos', ...genres.map(g => g.name)];
 
   useEffect(() => {
     const genre = searchParams.get('genre');
@@ -41,6 +49,9 @@ function Search() {
     function handleClick(e: MouseEvent) {
       if (filterRef.current && !filterRef.current.contains(e.target as Node)) setFiltersOpen(false);
     }
+
+    loadData<Genre>(PUBLIC_ENDPOINT + GENRES_ENDPOINT, setGenres);
+    loadData<BookSummary>(PUBLIC_ENDPOINT + BOOKS_ENPOINT, setBooks);
 
     document.addEventListener('mousedown', handleClick);
 
@@ -55,19 +66,17 @@ function Search() {
   if (query.trim()) {
     const q = query.toLowerCase();
 
-    results = results.filter(b => b.title.toLowerCase().includes(q) || b.author.toLowerCase().includes(q));
+    results = results.filter(b => b.title.toLowerCase().includes(q) || (b.authorName || '').toLowerCase().includes(q));
   }
 
-  if (selectedGenre !== 'Todos') results = results.filter(b => b.genre === selectedGenre);
+  if (selectedGenre !== 'Todos') results = results.filter(b => b.genres && b.genres.includes(selectedGenre));
 
   results = results.filter(b => applyYear(b, pub));
   results = results.filter(b => applyRating(b, rating));
   results = applySort(results, sort);
 
-  const popular = [...books].sort((a, b) => b.rating - a.rating).slice(0, 6);
-
-  function applyYear(b: Book, pub: string) {
-    const y = b.year;
+  function applyYear(b: BookSummary, pub: string) {
+    const y = b.releaseYear;
 
     switch (pub) {
       case '2020–2026': return y >= 2020;
@@ -79,20 +88,20 @@ function Search() {
     }
   }
 
-  function applyRating(b: Book, r: string) {
+  function applyRating(b: BookSummary, r: string) {
     if (r === 'Todas') return true;
 
     return b.rating >= parseFloat(r);
   }
 
-  function applySort(arr: Book[], s: string) {
+  function applySort(arr: BookSummary[], s: string) {
     const copy = [...arr];
 
     switch (s) {
       case 'Maior Nota': return copy.sort((a, b) => b.rating - a.rating);
       case 'Menor Nota': return copy.sort((a, b) => a.rating - b.rating);
-      case 'Mais Recente': return copy.sort((a, b) => b.year - a.year);
-      case 'Mais Antigo': return copy.sort((a, b) => a.year - b.year);
+      case 'Mais Recente': return copy.sort((a, b) => b.releaseYear - a.releaseYear);
+      case 'Mais Antigo': return copy.sort((a, b) => a.releaseYear - b.releaseYear);
       case 'A – Z': return copy.sort((a, b) => a.title.localeCompare(b.title));
       case 'Z – A': return copy.sort((a, b) => b.title.localeCompare(a.title));
       default: return copy;
@@ -126,7 +135,7 @@ function Search() {
                 <input
                   type='text'
                   value={query}
-                  onChange={(e) => setQuery(e.target.value)}
+                  onChange={e => setQuery(e.target.value)}
                   placeholder='Buscar por título ou autor...'
                   className='bg-white py-3 pr-10 pl-11 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-400 w-full text-gray-900 text-sm transition-all placeholder-gray-400'
                 />
@@ -278,12 +287,12 @@ function Search() {
 
                     <div className='flex flex-col flex-1 justify-center min-w-0'>
                       <p className='font-semibold text-gray-900 text-sm truncate'>{book.title}</p>
-                      <p className='mt-0.5 text-gray-500 text-xs'>{book.author}</p>
+                      <p className='mt-0.5 text-gray-500 text-xs'>{book.authorName}</p>
 
                       <div className='flex items-center gap-2 mt-2'>
-                        <span className='bg-gray-100 px-2 py-0.5 rounded-full max-w-[120px] text-[11px] text-gray-500 truncate'>
+                        {/* <span className='bg-gray-100 px-2 py-0.5 rounded-full max-w-[120px] text-[11px] text-gray-500 truncate'>
                           {book.genre}
-                        </span>
+                        </span> */}
 
                         <div className='flex items-center gap-0.5 ml-auto'>
                           <Star className='fill-yellow-400 w-3 h-3 text-yellow-400'/>
@@ -321,7 +330,7 @@ function Search() {
                 </div>
 
                 <div className='flex gap-3 -mx-4 px-4 overflow-x-auto' style={{ scrollbarWidth: 'none' }}>
-                  {popular.map(book => (
+                  {books.map(book => (
                     <div key={book.id} className='flex-shrink-0 w-[100px]'>
                       <BookCard book={book}/>
                     </div>
@@ -335,17 +344,17 @@ function Search() {
                 </h2>
 
                 <div className='gap-3 grid grid-cols-2'>
-                  {genreCards.map(genre => {
-                    const count = books.filter((b) => b.genre === genre.name).length;
+                  {genres.map(genre => {
+                    const count = books.filter(b => b.genres && b.genres.includes(genre.name)).length;
 
                     return (
                       <button
-                        key={genre.name}
+                        key={genre.id}
                         onClick={() => {
                           setSelectedGenre(genre.name);
                           setFiltersOpen(false);
                         }}
-                        className={`bg-gradient-to-br ${genre.bg} rounded-2xl p-4 text-left relative overflow-hidden active:scale-95 transition-transform`}
+                        className={`bg-gradient-to-br ${getGradient(genre.id)} rounded-2xl p-4 text-left relative overflow-hidden active:scale-95 transition-transform`}
                       >
                         <span className='block font-semibold text-white text-sm leading-snug'>
                           {genre.name}

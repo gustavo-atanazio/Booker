@@ -25,7 +25,7 @@ export default function UserMenu() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant='ghost' size='icon' className='rounded-full'>
-          <CircleUser className='h-5 w-5' />
+          <CircleUser className='w-5 h-5' />
           <span className='sr-only'>{user.name}</span>
         </Button>
       </DropdownMenuTrigger>
@@ -33,23 +33,23 @@ export default function UserMenu() {
       <DropdownMenuContent align='end' className='w-56'>
         <DropdownMenuLabel className='font-normal'>
           <div className='flex flex-col space-y-1'>
-            <p className='text-sm font-medium leading-none'>{user.name}</p>
-            <p className='text-xs leading-none text-muted-foreground'>{user.email}</p>
+            <p className='font-medium text-sm leading-none'>{user.name}</p>
+            <p className='text-muted-foreground text-xs leading-none'>{user.email}</p>
           </div>
         </DropdownMenuLabel>
 
         <DropdownMenuSeparator />
 
         <DropdownMenuItem asChild className='cursor-pointer'>
-          <Link href='/dashboard'>
-            <LayoutDashboard className='mr-2 h-4 w-4' />
-            {t('dashboard')}
+          <Link href='/profile'>
+            <CircleUser className='mr-2 w-4 h-4' />
+            {t('profile')}
           </Link>
         </DropdownMenuItem>
 
         <DropdownMenuItem asChild className='cursor-pointer'>
           <Link href='/settings'>
-            <Settings className='mr-2 h-4 w-4' />
+            <Settings className='mr-2 w-4 h-4' />
             {t('settings')}
           </Link>
         </DropdownMenuItem>
@@ -57,7 +57,7 @@ export default function UserMenu() {
         {isAdmin && (
           <DropdownMenuItem asChild className='cursor-pointer'>
             <Link href='/admin'>
-              <Shield className='mr-2 h-4 w-4' />
+              <Shield className='mr-2 w-4 h-4' />
               {t('admin')}
             </Link>
           </DropdownMenuItem>
@@ -67,8 +67,8 @@ export default function UserMenu() {
 
         <DropdownMenuItem asChild className='cursor-pointer'>
           <form action={logoutAction} className='w-full'>
-            <button type='submit' className='flex w-full items-center'>
-              <LogOut className='mr-2 h-4 w-4' />
+            <button type='submit' className='flex items-center w-full'>
+              <LogOut className='mr-2 w-4 h-4' />
               {t('logout')}
             </button>
           </form>

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { ArrowLeft, Camera, Check, X, Plus } from 'lucide-react';
 
 import currentUser from '@/data/user';
-import ALL_GENRES from '@/data/genres';
+const ALL_GENRES = ['Ficção Científica', 'Fantasia', 'Romance', 'Terror', 'História', 'Suspense', 'Biografia', 'Autoajuda', 'Poesia', 'Filosofia'];
 
 function EditProfile() {
   const router = useRouter();
