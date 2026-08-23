@@ -1,9 +1,9 @@
 const PUBLIC_ENDPOINT = '/public';
-const BOOKS_ENPOINT = '/books';
+const BOOKS_ENDPOINT = '/books';
 const GENRES_ENDPOINT = '/genres';
 
 export {
   PUBLIC_ENDPOINT,
-  BOOKS_ENPOINT,
+  BOOKS_ENDPOINT,
   GENRES_ENDPOINT
 };

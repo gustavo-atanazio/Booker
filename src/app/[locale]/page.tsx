@@ -11,7 +11,7 @@ import activities from '@/data/activities';
 
 import { loadData } from '@/services/api';
 
-import { PUBLIC_ENDPOINT, BOOKS_ENPOINT, GENRES_ENDPOINT } from '@/constants/api';
+import { PUBLIC_ENDPOINT, BOOKS_ENDPOINT, GENRES_ENDPOINT } from '@/constants/api';
 
 import type { BookSummary } from '@/types/Book';
 import type Genre from '@/types/Genre';
@@ -23,7 +23,7 @@ function Home() {
   const [genres, setGenres] = useState<Genre[]>([]);
 
   useEffect(() => {
-    loadData<BookSummary>(PUBLIC_ENDPOINT + BOOKS_ENPOINT, setBooks);
+    loadData<BookSummary>(PUBLIC_ENDPOINT + BOOKS_ENDPOINT, setBooks);
     loadData<Genre>(PUBLIC_ENDPOINT + GENRES_ENDPOINT, setGenres);
   }, []);
 

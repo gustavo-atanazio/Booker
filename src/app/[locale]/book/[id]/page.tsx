@@ -12,7 +12,7 @@ import ReviewCard from './_components/ReviewCard';
 
 import { apiGet, loadData } from '@/services/api';
 
-import { PUBLIC_ENDPOINT, BOOKS_ENPOINT } from '@/constants/api';
+import { PUBLIC_ENDPOINT, BOOKS_ENDPOINT } from '@/constants/api';
 
 import type Book from '@/types/Book';
 import type { ReviewSummary } from '@/types/Review';
@@ -42,18 +42,15 @@ function BookDetails() {
 
   useEffect(() => {
     async function fetchData() {
-      const { data } = await apiGet<Book>(`${PUBLIC_ENDPOINT + BOOKS_ENPOINT}/${id}`);
+      const { data } = await apiGet<Book>(`${PUBLIC_ENDPOINT + BOOKS_ENDPOINT}/${id}`);
 
-      if (data) {
-        console.log(data);
-        setBook(data);
-      }
+      if (data) setBook(data);
     }
 
     if (id) {
       fetchData();
-      loadData<ReviewSummary>(`${PUBLIC_ENDPOINT + BOOKS_ENPOINT}/${id}/reviews`, setReviews);
-      loadData<BookSummary>(PUBLIC_ENDPOINT + BOOKS_ENPOINT, setRelatedBooks);
+      loadData<ReviewSummary>(`${PUBLIC_ENDPOINT + BOOKS_ENDPOINT}/${id}/reviews`, setReviews);
+      loadData<BookSummary>(PUBLIC_ENDPOINT + BOOKS_ENDPOINT, setRelatedBooks);
     }
   }, [id]);
 

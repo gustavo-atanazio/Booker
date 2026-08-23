@@ -13,7 +13,7 @@ import { loadData } from '@/services/api';
 
 import getGradient from '@/utils/getGradient';
 
-import { PUBLIC_ENDPOINT, BOOKS_ENPOINT, GENRES_ENDPOINT } from '@/constants/api';
+import { PUBLIC_ENDPOINT, BOOKS_ENDPOINT, GENRES_ENDPOINT } from '@/constants/api';
 
 import type Genre from '@/types/Genre';
 import type Book from '@/types/Book';
@@ -51,7 +51,7 @@ function Search() {
     }
 
     loadData<Genre>(PUBLIC_ENDPOINT + GENRES_ENDPOINT, setGenres);
-    loadData<BookSummary>(PUBLIC_ENDPOINT + BOOKS_ENPOINT, setBooks);
+    loadData<BookSummary>(PUBLIC_ENDPOINT + BOOKS_ENDPOINT, setBooks);
 
     document.addEventListener('mousedown', handleClick);
 
