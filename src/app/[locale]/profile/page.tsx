@@ -8,7 +8,7 @@ import ImageWithFallback from '@/components/ImageWithFallback';
 import StarRow from './_components/StarRow';
 
 import currentUser from '@/data/user';
-import { books } from '@/data/books';
+const books: Book[] = [];
 import activities from '@/data/activities';
 
 import type Book from '@/types/Book';
@@ -360,8 +360,8 @@ function Profile() {
                     </div>
 
                     <p className='mt-2 font-semibold text-gray-900 text-sm truncate'>{book.title}</p>
-                    <p className='text-gray-500 text-xs truncate'>{book.author}</p>
-                    <p className='text-gray-400 text-xs'>{book.year}</p>
+                    <p className='text-gray-500 text-xs truncate'>{typeof book.author === 'string' ? book.author : (book.author as unknown as { name?: string })?.name}</p>
+                    <p className='text-gray-400 text-xs'>{(book as unknown as { year?: number; releaseYear?: number })?.releaseYear || (book as unknown as { year?: number; releaseYear?: number })?.year}</p>
                   </Link>
                 ))}
               </div>

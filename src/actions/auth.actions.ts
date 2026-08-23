@@ -78,7 +78,7 @@ export async function loginAction(
     typeof redirectTo === 'string' &&
     redirectTo.startsWith('/') &&
     !redirectTo.startsWith('//');
-  redirect(isSafePath ? redirectTo : '/dashboard');
+  redirect(isSafePath ? redirectTo : '/profile');
 }
 
 export async function registerAction(
@@ -94,7 +94,7 @@ export async function registerAction(
   }
 
   await setAuthCookies(response.data);
-  redirect('/dashboard');
+  redirect('/profile');
 }
 
 export async function logoutAction(): Promise<void> {

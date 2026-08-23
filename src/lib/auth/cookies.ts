@@ -50,6 +50,22 @@ export async function getUserProfile(): Promise<UserProfileDTO | null> {
   }
 }
 
+export async function updateUserProfileCookie(updatedFields: Partial<UserProfileDTO>) {
+  const cookieStore = await cookies();
+  const current = await getUserProfile();
+  if (!current) return;
+
+  const updated: UserProfileDTO = {
+    ...current,
+    ...updatedFields,
+  };
+
+  cookieStore.set(USER_PROFILE_NAME, JSON.stringify(updated), {
+    ...COOKIE_OPTIONS,
+    maxAge: THIRTY_DAYS,
+  });
+}
+
 export async function clearAuthCookies() {
   const cookieStore = await cookies();
 

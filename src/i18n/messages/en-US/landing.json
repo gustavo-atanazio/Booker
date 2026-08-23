@@ -1,10 +1,39 @@
 {
   "landing": {
     "hero": {
-      "title": "Share Your Readings with",
-      "subtitle": "The social network for book lovers. Rate, discover and share your favorite stories with a community passionate about reading.",
-      "cta": "Get Started",
-      "login": "Sign In"
+      "badge": "The social network for readers",
+      "titleLine1": "Your books.",
+      "titleLine2": "Your story.",
+      "subtitle": "Track what you read, discover new books, and share reviews with fellow literature enthusiasts.",
+      "explore": "Explore Books",
+      "login": "Sign In",
+      "stats": {
+        "books": "Books",
+        "readers": "Readers",
+        "reviews": "Reviews"
+      }
+    },
+    "featured": {
+      "badge": "Featured",
+      "viewMore": "View more"
+    },
+    "popular": {
+      "title": "Popular This Week",
+      "viewAll": "View all"
+    },
+    "recentActivity": {
+      "title": "Recent Activity"
+    },
+    "classics": {
+      "title": "Must-Read Classics"
+    },
+    "genres": {
+      "title": "Genres"
+    },
+    "join": {
+      "title": "Join Booker",
+      "description": "Track your readings, write reviews, and discover your next favorite book.",
+      "button": "Create free account"
     },
     "features": {
       "title": "Why choose Booker?",

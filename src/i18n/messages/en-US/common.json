@@ -1,15 +1,36 @@
 {
   "welcome": "Welcome",
+  "nav": {
+    "home": "Home",
+    "explore": "Explore",
+    "profile": "Profile",
+    "login": "Sign In",
+    "search": "Search",
+    "toggleMenu": "Toggle menu"
+  },
+  "activity": {
+    "reviewed": "reviewed",
+    "finished": "finished reading",
+    "wants": "wants to read",
+    "reading": "is reading",
+    "replies": "{count, plural, one {# reply} other {# replies}}"
+  },
   "errors": {
     "INVALID_CREDENTIALS": "Invalid email or password.",
+    "AUTHENTICATION_FAILED": "Authentication failed.",
     "RESOURCE_NOT_FOUND": "Resource not found.",
     "NETWORK_ERROR": "Connection error. Check your internet.",
     "SERVER_ERROR": "Server error. Try again later.",
+    "INTERNAL_ERROR": "Internal server error.",
     "VALIDATION_ERROR": "Unable to process your request. Please check your information and try again.",
+    "INVALID_ARGUMENT": "Invalid argument provided.",
     "ACCESS_DENIED": "You don't have permission to perform this action.",
+    "BUSINESS_RULE_VIOLATION": "Business rule violated.",
     "USERNAME_ALREADY_EXISTS": "Username already in use.",
     "EMAIL_ALREADY_EXISTS": "Email already in use.",
     "INCORRECT_PASSWORD": "Incorrect password.",
+    "DUPLICATE_REVIEW": "You have already reviewed this book.",
+    "COVER_ERROR": "Error processing cover image.",
     "INVALID_TOKEN": "Invalid or expired token.",
     "TOKEN_EXPIRED": "Session expired. Please log in again.",
     "TYPE_MISMATCH": "Invalid value '{rejectedValue}' for field '{parameter}'.",
@@ -21,8 +42,8 @@
     "system": "System"
   },
   "userMenu": {
+    "profile": "My Profile",
     "login": "Login",
-    "dashboard": "Dashboard",
     "settings": "Settings",
     "admin": "Admin Panel",
     "logout": "Logout"

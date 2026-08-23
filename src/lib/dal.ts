@@ -29,6 +29,6 @@ export const getUser = cache(async (): Promise<UserDTO | null> => {
 
 export const verifyAdmin = cache(async (): Promise<UserDTO> => {
   const user = await verifySession();
-  if (user.role !== 'ADMIN') redirect('/dashboard');
+  if (user.role !== 'ADMIN') redirect('/profile');
   return user;
 });

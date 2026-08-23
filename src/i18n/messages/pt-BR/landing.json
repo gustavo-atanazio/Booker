@@ -1,10 +1,39 @@
 {
   "landing": {
     "hero": {
-      "title": "Compartilhe suas Leituras com",
-      "subtitle": "A rede social para amantes de livros. Avalie, descubra e compartilhe suas histórias favoritas com uma comunidade apaixonada por leitura.",
-      "cta": "Começar Agora",
-      "login": "Fazer Login"
+      "badge": "A rede social dos leitores",
+      "titleLine1": "Seus livros.",
+      "titleLine2": "Sua história.",
+      "subtitle": "Registre o que você lê, descubra novos livros e compartilhe resenhas com outros apaixonados por literatura.",
+      "explore": "Explorar Livros",
+      "login": "Entrar",
+      "stats": {
+        "books": "Livros",
+        "readers": "Leitores",
+        "reviews": "Avaliações"
+      }
+    },
+    "featured": {
+      "badge": "Em Destaque",
+      "viewMore": "Ver mais"
+    },
+    "popular": {
+      "title": "Populares da Semana",
+      "viewAll": "Ver todos"
+    },
+    "recentActivity": {
+      "title": "Atividade Recente"
+    },
+    "classics": {
+      "title": "Clássicos Imperdíveis"
+    },
+    "genres": {
+      "title": "Gêneros"
+    },
+    "join": {
+      "title": "Junte-se ao Booker",
+      "description": "Registre suas leituras, escreva resenhas e descubra seu próximo livro favorito.",
+      "button": "Criar conta gratuita"
     },
     "features": {
       "title": "Por que escolher o Booker?",

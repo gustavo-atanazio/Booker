@@ -50,13 +50,13 @@ async function RootLayout({ children, params }: RootLayoutProps) {
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <NextIntlClientProvider messages={messages}>
-          <ThemeProvider
-            attribute='class'
-            defaultTheme='system'
-            enableSystem
-            disableTransitionOnChange
-          >
+        <ThemeProvider
+          attribute='class'
+          defaultTheme='system'
+          enableSystem
+          disableTransitionOnChange
+        >
+          <NextIntlClientProvider messages={messages}>
             <AuthProvider initialUser={user}>
               <div className='bg-gray-50 min-h-screen'>
                 <Header/>
@@ -66,8 +66,8 @@ async function RootLayout({ children, params }: RootLayoutProps) {
                 <BottomNav/>
               </div>
             </AuthProvider>
-          </ThemeProvider>
-        </NextIntlClientProvider>
+          </NextIntlClientProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
