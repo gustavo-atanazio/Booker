@@ -1,39 +1,113 @@
 'use client';
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { MapPin, Calendar, Heart, MessageCircle, Bookmark, Star, BookOpen, Clock, TrendingUp, ChevronRight } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Link } from '@/i18n/routing';
+import { useTranslations, useLocale } from 'next-intl';
+import {
+  Calendar,
+  Heart,
+  MessageCircle,
+  Bookmark,
+  Star,
+  BookOpen,
+  Clock,
+  TrendingUp,
+  ChevronRight
+} from 'lucide-react';
 
 import ImageWithFallback from '@/components/ImageWithFallback';
 import StarRow from './_components/StarRow';
 
-import currentUser from '@/data/user';
-const books: Book[] = [];
 import activities from '@/data/activities';
+import { getBooksAction } from '@/actions/book.actions';
+import { useAuth } from '@/providers/AuthProvider';
 
-import type Book from '@/types/Book';
+import type { BookSummary } from '@/types/Book';
 
-type MainTab = 'atividade' | 'livros';
-type BookShelf = 'lendo' | 'lidos' | 'quero';
-
-function getBooks(ids: string[]) {
-  return ids.map(id => books.find(b => b.id === id)).filter(Boolean) as Book[];
-}
+type MainTab = 'activity' | 'books';
+type BookShelf = 'reading' | 'read' | 'want';
 
 const reviews = activities.filter(a => a.action === 'reviewed' || a.action === 'finished');
 
 function Profile() {
-  const [mainTab, setMainTab] = useState<MainTab>('atividade');
-  const [shelf, setShelf] = useState<BookShelf>('lendo');
-  const user = currentUser;
+  const [mainTab, setMainTab] = useState<MainTab>('activity');
+  const [shelf, setShelf] = useState<BookShelf>('reading');
+  const [books, setBooks] = useState<BookSummary[]>([]);
+  const t = useTranslations('profile');
+  const locale = useLocale();
+  const { user: authUser } = useAuth();
 
-  const progressPercent = Math.min(100, Math.round((user.yearlyProgress / user.yearlyGoal) * 100));
+  useEffect(() => {
+    getBooksAction().then(setBooks);
+  }, []);
+
+  if (!authUser) {
+    return (
+      <div className='flex flex-col justify-center items-center gap-4 px-4 min-h-[60vh] text-center'>
+        <p className='text-gray-600 text-base'>
+          Você precisa estar conectado para acessar o perfil.
+        </p>
+        <Link
+          href='/login?redirect=/profile'
+          className='bg-black hover:bg-gray-800 px-6 py-2.5 rounded-full font-semibold text-white text-sm transition-colors'
+        >
+          Fazer Login
+        </Link>
+      </div>
+    );
+  }
+
+  const name = authUser.name || 'Usuário';
+  const username = authUser.username || 'usuario';
+  const bio = authUser.bio || '';
+  const initials = name
+    .split(' ')
+    .map((n: string) => n[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase();
+
+  const joinDate = authUser.createdAt
+    ? new Date(authUser.createdAt).toLocaleDateString(locale, {
+        month: 'long',
+        year: 'numeric',
+      })
+    : '';
+
+  const readingBooks = books.slice(0, Math.min(2, books.length));
+  const readBooks = books;
+  const wantBooks = books.slice(2, Math.min(6, books.length));
 
   const shelfBooks =
-    shelf === 'lendo' ? getBooks(user.currentlyReading) :
-    shelf === 'lidos' ? getBooks(user.readBooks) :
-    getBooks(user.wantToRead)
-  ;
+    shelf === 'reading' ? readingBooks : shelf === 'read' ? readBooks : wantBooks;
+
+  const totalBooksRead = readBooks.length;
+  const avgRating =
+    books.length > 0
+      ? (books.reduce((acc, b) => acc + b.rating, 0) / books.length).toFixed(1)
+      : '0.0';
+
+  const totalPages = books.reduce((acc, b) => acc + (b.pageCount || 0), 0);
+  const avgPages = books.length > 0 ? Math.round(totalPages / books.length) : 0;
+
+  // Extract top author
+  const authorCounts: Record<string, number> = {};
+  books.forEach(b => {
+    if (b.authorName) {
+      authorCounts[b.authorName] = (authorCounts[b.authorName] || 0) + 1;
+    }
+  });
+  const topAuthor =
+    Object.entries(authorCounts).sort((a, b) => b[1] - a[1])[0]?.[0] || '—';
+
+  // Extract genres from loaded books
+  const uniqueGenres = Array.from(new Set(books.flatMap(b => b.genres || [])));
+  const displayGenres = uniqueGenres.slice(0, 5);
+  const topGenre = uniqueGenres[0] || 'Geral';
+
+  const yearlyProgress = totalBooksRead;
+  const yearlyGoal = 52;
+  const progressPercent = Math.min(100, Math.round((yearlyProgress / yearlyGoal) * 100));
 
   return (
     <div className='bg-white pb-24 min-h-screen'>
@@ -43,7 +117,7 @@ function Profile() {
             <div className='relative flex-shrink-0'>
               <div className='flex justify-center items-center bg-yellow-400 rounded-full ring-2 ring-yellow-400/50 w-20 h-20 overflow-hidden'>
                 <span className='font-bold text-black text-2xl select-none'>
-                  {user.name.split(' ').map((n: string) => n[0]).join('').slice(0, 2)}
+                  {initials}
                 </span>
               </div>
 
@@ -53,23 +127,22 @@ function Profile() {
             </div>
 
             <div className='flex-1 min-w-0'>
-              <h1 className='font-bold text-white text-xl leading-tight'>{user.name}</h1>
-              <p className='mt-0.5 text-yellow-400 text-sm'>@{user.username}</p>
+              <h1 className='font-bold text-white text-xl leading-tight'>{name}</h1>
+              <p className='mt-0.5 text-yellow-400 text-sm'>@{username}</p>
 
-              <p className='mt-2 max-w-md text-gray-400 text-sm leading-relaxed'>
-                {user.bio}
-              </p>
+              {bio && (
+                <p className='mt-2 max-w-md text-gray-400 text-sm leading-relaxed'>
+                  {bio}
+                </p>
+              )}
 
               <div className='flex flex-wrap gap-4 mt-2.5'>
-                <div className='flex items-center gap-1.5 text-gray-500 text-xs'>
-                  <MapPin className='w-3.5 h-3.5'/>
-                  {user.location}
-                </div>
-
-                <div className='flex items-center gap-1.5 text-gray-500 text-xs'>
-                  <Calendar className='w-3.5 h-3.5'/>
-                  Desde {user.joinDate}
-                </div>
+                {joinDate && (
+                  <div className='flex items-center gap-1.5 text-gray-500 text-xs'>
+                    <Calendar className='w-3.5 h-3.5' />
+                    {t('since', { date: joinDate })}
+                  </div>
+                )}
               </div>
             </div>
 
@@ -77,29 +150,37 @@ function Profile() {
               href='/profile/edit'
               className='flex-shrink-0 hover:bg-white/10 px-4 py-2 border border-white/30 rounded font-semibold text-white text-xs transition-colors'
             >
-              Editar
+              {t('edit')}
             </Link>
           </div>
 
           <div className='flex gap-8 mt-6 pb-5'>
             <div>
-              <div className='font-bold text-yellow-400 text-lg leading-none'>{user.booksRead}</div>
-              <div className='mt-1 text-gray-500 text-xs'>Lidos</div>
+              <div className='font-bold text-yellow-400 text-lg leading-none'>
+                {totalBooksRead}
+              </div>
+              <div className='mt-1 text-gray-500 text-xs'>{t('stats.read')}</div>
             </div>
 
             <div>
-              <div className='font-bold text-yellow-400 text-lg leading-none'>{user.currentlyReading.length}</div>
-              <div className='mt-1 text-gray-500 text-xs'>Lendo</div>
+              <div className='font-bold text-yellow-400 text-lg leading-none'>
+                {readingBooks.length}
+              </div>
+              <div className='mt-1 text-gray-500 text-xs'>{t('stats.reading')}</div>
             </div>
 
             <div>
-              <div className='font-bold text-yellow-400 text-lg leading-none'>{user.wantToRead.length}</div>
-              <div className='mt-1 text-gray-500 text-xs'>Quero Ler</div>
+              <div className='font-bold text-yellow-400 text-lg leading-none'>
+                {wantBooks.length}
+              </div>
+              <div className='mt-1 text-gray-500 text-xs'>{t('stats.wantToRead')}</div>
             </div>
 
             <div>
-              <div className='font-bold text-yellow-400 text-lg leading-none'>{user.avgRating.toFixed(1)}</div>
-              <div className='mt-1 text-gray-500 text-xs'>Nota Média</div>
+              <div className='font-bold text-yellow-400 text-lg leading-none'>
+                {avgRating}
+              </div>
+              <div className='mt-1 text-gray-500 text-xs'>{t('stats.avgRating')}</div>
             </div>
           </div>
         </div>
@@ -107,30 +188,32 @@ function Profile() {
 
       <div className='bg-white border-gray-100 border-b'>
         <div className='mx-auto px-5 max-w-5xl'>
-          <div className='flex flex-wrap gap-2 py-4'>
-            {user.favoriteGenres.slice(0, 5).map(genre => (
-              <Link
-                key={genre}
-                href={`/search?genre=${encodeURIComponent(genre)}`}
-                className='bg-yellow-400 hover:bg-yellow-300 px-3 py-1.5 rounded-full font-semibold text-black text-xs transition-colors'
-              >
-                {genre}
-              </Link>
-            ))}
-          </div>
+          {displayGenres.length > 0 && (
+            <div className='flex flex-wrap gap-2 py-4'>
+              {displayGenres.map(genre => (
+                <Link
+                  key={genre}
+                  href={`/search?genre=${encodeURIComponent(genre)}`}
+                  className='bg-yellow-400 hover:bg-yellow-300 px-3 py-1.5 rounded-full font-semibold text-black text-xs transition-colors'
+                >
+                  {genre}
+                </Link>
+              ))}
+            </div>
+          )}
 
           <div className='flex gap-6 border-gray-100 border-t'>
-            {(['atividade', 'livros'] as MainTab[]).map(t => (
+            {(['activity', 'books'] as MainTab[]).map(tabKey => (
               <button
-                key={t}
-                onClick={() => setMainTab(t)}
+                key={tabKey}
+                onClick={() => setMainTab(tabKey)}
                 className={`py-3 text-sm font-semibold border-b-2 transition-colors capitalize ${
-                  mainTab === t
+                  mainTab === tabKey
                     ? 'text-yellow-500 border-yellow-400'
                     : 'text-gray-500 border-transparent hover:text-gray-800'
                 }`}
               >
-                {t === 'atividade' ? 'Atividade' : 'Livros'}
+                {t(`tabs.${tabKey}`)}
               </button>
             ))}
           </div>
@@ -138,11 +221,11 @@ function Profile() {
       </div>
 
       <div className='mx-auto px-5 py-6 max-w-5xl'>
-        {mainTab === 'atividade' && (
+        {mainTab === 'activity' && (
           <div className='flex lg:flex-row flex-col gap-8'>
             <div className='flex-1 min-w-0'>
               <h2 className='mb-5 font-semibold text-gray-400 text-xs uppercase tracking-widest'>
-                Resenhas Recentes
+                {t('recentReviews')}
               </h2>
 
               <div className='flex flex-col divide-y divide-gray-100'>
@@ -150,24 +233,35 @@ function Profile() {
                   <div key={activity.id} className='py-5 first:pt-0'>
                     <div className='flex justify-between items-center mb-3'>
                       <div className='flex items-center gap-2.5'>
-                        <div className={`w-8 h-8 rounded-full ${activity.user.color} flex items-center justify-center flex-shrink-0`}>
-                          <span className='font-bold text-white text-xs'>{activity.user.initials}</span>
+                        <div
+                          className={`w-8 h-8 rounded-full ${activity.user.color} flex items-center justify-center flex-shrink-0`}
+                        >
+                          <span className='font-bold text-white text-xs'>
+                            {activity.user.initials}
+                          </span>
                         </div>
 
                         <div>
                           <div className='flex flex-wrap items-center gap-1.5'>
-                            <span className='font-semibold text-gray-900 text-sm'>{activity.user.name}</span>
-                            <span className='text-gray-400 text-xs'>avaliou</span>
+                            <span className='font-semibold text-gray-900 text-sm'>
+                              {activity.user.name}
+                            </span>
+                            <span className='text-gray-400 text-xs'>
+                              {t('reviewed')}
+                            </span>
                           </div>
 
                           <span className='text-gray-400 text-xs'>{activity.date}</span>
                         </div>
                       </div>
 
-                      {activity.rating && <StarRow rating={activity.rating}/>}
+                      {activity.rating && <StarRow rating={activity.rating} />}
                     </div>
 
-                    <Link href={`/book/${activity.book.id}`} className='group flex gap-3 mb-3'>
+                    <Link
+                      href={`/book/${activity.book.id}`}
+                      className='group flex gap-3 mb-3'
+                    >
                       <ImageWithFallback
                         src={activity.book.coverUrl}
                         alt={activity.book.title}
@@ -179,7 +273,9 @@ function Profile() {
                           {activity.book.title}
                         </p>
 
-                        <p className='mt-0.5 text-gray-500 text-xs'>{activity.book.author}</p>
+                        <p className='mt-0.5 text-gray-500 text-xs'>
+                          {activity.book.author}
+                        </p>
 
                         <span className='inline-block bg-gray-100 mt-1.5 px-2 py-0.5 rounded-full w-fit font-medium text-[11px] text-gray-600'>
                           {activity.book.genre}
@@ -196,18 +292,18 @@ function Profile() {
                     <div className='flex justify-between items-center'>
                       <div className='flex items-center gap-4'>
                         <button className='flex items-center gap-1.5 text-gray-400 hover:text-rose-500 text-xs transition-colors'>
-                          <Heart className='w-4 h-4'/>
+                          <Heart className='w-4 h-4' />
                           {activity.likes}
                         </button>
 
                         <button className='flex items-center gap-1.5 text-gray-400 hover:text-blue-500 text-xs transition-colors'>
-                          <MessageCircle className='w-4 h-4'/>
+                          <MessageCircle className='w-4 h-4' />
                           {activity.comments}
                         </button>
                       </div>
 
                       <button className='text-gray-300 hover:text-yellow-400 transition-colors'>
-                        <Bookmark className='w-4 h-4'/>
+                        <Bookmark className='w-4 h-4' />
                       </button>
                     </div>
                   </div>
@@ -218,21 +314,51 @@ function Profile() {
             <aside className='flex flex-col flex-shrink-0 gap-5 lg:w-64'>
               <div>
                 <h3 className='mb-4 font-semibold text-gray-400 text-xs uppercase tracking-widest'>
-                  Estatísticas
+                  {t('statistics')}
                 </h3>
 
                 <div className='flex flex-col gap-3'>
                   {[
-                    { label: 'Páginas Lidas', value: '94.2K', highlight: false },
-                    { label: 'Média de Páginas', value: '387', highlight: false },
-                    { label: 'Autor Mais Lido', value: 'Tolkien', highlight: true },
-                    { label: 'Livros Este Ano', value: String(user.yearlyProgress), highlight: false },
-                    { label: 'Gênero Favorito', value: 'Fantasia', highlight: true }
+                    {
+                      label: t('pagesRead'),
+                      value:
+                        totalPages > 1000
+                          ? `${(totalPages / 1000).toFixed(1)}K`
+                          : String(totalPages || '0'),
+                      highlight: false,
+                    },
+                    {
+                      label: t('avgPages'),
+                      value: String(avgPages),
+                      highlight: false,
+                    },
+                    {
+                      label: t('mostReadAuthor'),
+                      value: topAuthor,
+                      highlight: true,
+                    },
+                    {
+                      label: t('booksThisYear'),
+                      value: String(yearlyProgress),
+                      highlight: false,
+                    },
+                    {
+                      label: t('favoriteGenre'),
+                      value: topGenre,
+                      highlight: true,
+                    },
                   ].map(({ label, value, highlight }) => (
-                    <div key={label} className='flex justify-between items-center py-2 border-gray-100 border-b'>
+                    <div
+                      key={label}
+                      className='flex justify-between items-center py-2 border-gray-100 border-b'
+                    >
                       <span className='text-gray-500 text-sm'>{label}</span>
 
-                      <span className={`text-sm font-semibold ${highlight ? 'text-yellow-500' : 'text-gray-900'}`}>
+                      <span
+                        className={`text-sm font-semibold ${
+                          highlight ? 'text-yellow-500' : 'text-gray-900'
+                        }`}
+                      >
                         {value}
                       </span>
                     </div>
@@ -242,14 +368,17 @@ function Profile() {
 
               <div className='bg-black p-4 rounded-2xl'>
                 <div className='flex items-center gap-2 mb-2'>
-                  <BookOpen className='w-4 h-4 text-yellow-400'/>
-                  <h3 className='font-bold text-white text-sm'>Diário de Leitura</h3>
+                  <BookOpen className='w-4 h-4 text-yellow-400' />
+                  <h3 className='font-bold text-white text-sm'>{t('readingJournal')}</h3>
                 </div>
 
                 <p className='mb-3 text-gray-400 text-xs leading-relaxed'>
-                  Você leu{' '}
-                  <span className='font-semibold text-yellow-400'>{user.yearlyProgress} livros</span>{' '}
-                  este ano. Continue assim!
+                  {t.rich('journalMessage', {
+                    count: yearlyProgress,
+                    bold: chunks => (
+                      <span className='font-semibold text-yellow-400'>{chunks}</span>
+                    ),
+                  })}
                 </p>
 
                 <div className='bg-white/10 mb-2 rounded-full w-full h-1.5'>
@@ -260,19 +389,25 @@ function Profile() {
                 </div>
 
                 <p className='text-gray-500 text-xs'>
-                  {user.yearlyProgress}/{user.yearlyGoal} livros da meta anual
+                  {t('journalGoal', { progress: yearlyProgress, goal: yearlyGoal })}
                 </p>
               </div>
 
               <div className='bg-gray-50 p-4 rounded-2xl'>
                 <div className='flex items-center gap-2 mb-3'>
-                  <TrendingUp className='w-4 h-4 text-yellow-500'/>
-                  <h3 className='font-bold text-gray-900 text-sm'>Meta 2026</h3>
+                  <TrendingUp className='w-4 h-4 text-yellow-500' />
+                  <h3 className='font-bold text-gray-900 text-sm'>
+                    {t('goalTitle', { year: 2026 })}
+                  </h3>
                 </div>
 
                 <div className='flex justify-between items-end mb-2'>
-                  <span className='text-gray-500 text-xs'>{user.yearlyProgress} de {user.yearlyGoal}</span>
-                  <span className='font-bold text-yellow-500 text-sm'>{progressPercent}%</span>
+                  <span className='text-gray-500 text-xs'>
+                    {yearlyProgress} / {yearlyGoal}
+                  </span>
+                  <span className='font-bold text-yellow-500 text-sm'>
+                    {progressPercent}%
+                  </span>
                 </div>
 
                 <div className='bg-gray-200 rounded-full w-full h-2'>
@@ -283,21 +418,38 @@ function Profile() {
                 </div>
 
                 <p className='mt-2 text-gray-400 text-xs'>
-                  {user.yearlyGoal - user.yearlyProgress} livros restantes
+                  {t('booksRemaining', {
+                    count: Math.max(0, yearlyGoal - yearlyProgress),
+                  })}
                 </p>
               </div>
             </aside>
           </div>
         )}
 
-        {mainTab === 'livros' && (
+        {mainTab === 'books' && (
           <div>
             <div className='flex flex-wrap gap-2 mb-6'>
-              {([
-                { key: 'lendo' as BookShelf, label: 'Lendo Agora', count: user.currentlyReading.length, icon: Clock },
-                { key: 'lidos' as BookShelf, label: 'Já Li', count: user.readBooks.length, icon: Star },
-                { key: 'quero' as BookShelf, label: 'Quero Ler', count: user.wantToRead.length, icon: Bookmark }
-              ]).map(({ key, label, count, icon: Icon }) => (
+              {[
+                {
+                  key: 'reading' as BookShelf,
+                  label: t('shelves.reading'),
+                  count: readingBooks.length,
+                  icon: Clock,
+                },
+                {
+                  key: 'read' as BookShelf,
+                  label: t('shelves.read'),
+                  count: readBooks.length,
+                  icon: Star,
+                },
+                {
+                  key: 'want' as BookShelf,
+                  label: t('shelves.want'),
+                  count: wantBooks.length,
+                  icon: Bookmark,
+                },
+              ].map(({ key, label, count, icon: Icon }) => (
                 <button
                   key={key}
                   onClick={() => setShelf(key)}
@@ -307,7 +459,7 @@ function Profile() {
                       : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'
                   }`}
                 >
-                  <Icon className='w-3.5 h-3.5'/>
+                  <Icon className='w-3.5 h-3.5' />
                   {label} ({count})
                 </button>
               ))}
@@ -316,24 +468,24 @@ function Profile() {
             {shelfBooks.length === 0 ? (
               <div className='py-20 text-center'>
                 <div className='mb-4 text-5xl'>📖</div>
-                <h3 className='mb-1 font-semibold text-gray-900 text-base'>Nenhum livro aqui ainda</h3>
-                <p className='mt-1 text-gray-500 text-sm'>Explore e adicione à sua prateleira.</p>
+                <h3 className='mb-1 font-semibold text-gray-900 text-base'>
+                  {t('emptyShelf.title')}
+                </h3>
+                <p className='mt-1 text-gray-500 text-sm'>
+                  {t('emptyShelf.description')}
+                </p>
 
                 <Link
                   href='/search'
                   className='inline-flex items-center gap-2 bg-yellow-400 hover:bg-yellow-300 mt-5 px-5 py-2.5 rounded-full font-semibold text-black text-sm transition-colors'
                 >
-                  Explorar livros <ChevronRight className='w-4 h-4'/>
+                  {t('emptyShelf.explore')} <ChevronRight className='w-4 h-4' />
                 </Link>
               </div>
             ) : (
               <div className='gap-5 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5'>
                 {shelfBooks.map(book => (
-                  <Link
-                    key={book.id}
-                    href={`/book/${book.id}`}
-                    className='group block'
-                  >
+                  <Link key={book.id} href={`/book/${book.id}`} className='group block'>
                     <div
                       className='relative shadow-sm group-hover:shadow-md rounded-xl overflow-hidden transition-shadow'
                       style={{ aspectRatio: '2/3' }}
@@ -344,24 +496,29 @@ function Profile() {
                         className='w-full h-full object-cover group-hover:scale-105 transition-transform duration-300'
                       />
 
-                      {shelf === 'lidos' && (
+                      {shelf === 'read' && (
                         <div className='top-2 right-2 absolute bg-yellow-400 p-0.5 rounded-full'>
-                          <Star className='fill-black w-3 h-3 text-black'/>
+                          <Star className='fill-black w-3 h-3 text-black' />
                         </div>
                       )}
 
-                      {shelf === 'lendo' && (
+                      {shelf === 'reading' && (
                         <div className='bottom-0 absolute inset-x-0 bg-gradient-to-t from-black/80 to-transparent px-2 py-2'>
                           <div className='bg-white/30 rounded-full w-full h-1'>
-                            <div className='bg-yellow-400 rounded-full h-1' style={{ width: '40%' }} />
+                            <div
+                              className='bg-yellow-400 rounded-full h-1'
+                              style={{ width: '40%' }}
+                            />
                           </div>
                         </div>
                       )}
                     </div>
 
-                    <p className='mt-2 font-semibold text-gray-900 text-sm truncate'>{book.title}</p>
-                    <p className='text-gray-500 text-xs truncate'>{typeof book.author === 'string' ? book.author : (book.author as unknown as { name?: string })?.name}</p>
-                    <p className='text-gray-400 text-xs'>{(book as unknown as { year?: number; releaseYear?: number })?.releaseYear || (book as unknown as { year?: number; releaseYear?: number })?.year}</p>
+                    <p className='mt-2 font-semibold text-gray-900 text-sm truncate'>
+                      {book.title}
+                    </p>
+                    <p className='text-gray-500 text-xs truncate'>{book.authorName}</p>
+                    <p className='text-gray-400 text-xs'>{book.releaseYear}</p>
                   </Link>
                 ))}
               </div>
