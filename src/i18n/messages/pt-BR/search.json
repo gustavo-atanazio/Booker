@@ -1,0 +1,35 @@
+{
+  "search": {
+    "placeholder": "Buscar por título ou autor...",
+    "filters": "Filtros",
+    "genre": "Gênero",
+    "all": "Todos",
+    "publication": "Publicação",
+    "allYears": "Todos os anos",
+    "before1950": "Antes de 1950",
+    "minRating": "Avaliação mínima",
+    "allRatings": "Todas",
+    "sort": "Ordenar",
+    "sortOptions": {
+      "relevance": "Relevância",
+      "highestRating": "Maior Nota",
+      "lowestRating": "Menor Nota",
+      "newest": "Mais Recente",
+      "oldest": "Mais Antigo",
+      "az": "A - Z",
+      "za": "Z - A"
+    },
+    "activeFilters": "{count, plural, one {# filtro ativo} other {# filtros ativos}}",
+    "clearAll": "Limpar tudo",
+    "clearFilters": "Limpar filtros",
+    "clearSearch": "Limpar busca",
+    "resultsCount": "{count, plural, one {# resultado} other {# resultados}}",
+    "inGenre": "em {genre}",
+    "noResults": "Nenhum resultado",
+    "noResultsDescription": "Tente outro título, autor ou ajuste os filtros.",
+    "trending": "Em Alta",
+    "thisWeek": "Esta semana",
+    "exploreByGenre": "Explorar por Gênero",
+    "booksCount": "{count, plural, one {# livro} other {# livros}}"
+  }
+}
