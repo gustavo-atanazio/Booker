@@ -1,0 +1,73 @@
+{
+  "profile": {
+    "edit": "Edit",
+    "since": "Since {date}",
+    "stats": {
+      "read": "Read",
+      "reading": "Reading",
+      "wantToRead": "Want to Read",
+      "avgRating": "Avg Rating"
+    },
+    "tabs": {
+      "activity": "Activity",
+      "books": "Books"
+    },
+    "recentReviews": "Recent Reviews",
+    "reviewed": "reviewed",
+    "statistics": "Statistics",
+    "pagesRead": "Pages Read",
+    "avgPages": "Avg Pages",
+    "mostReadAuthor": "Most Read Author",
+    "booksThisYear": "Books This Year",
+    "favoriteGenre": "Favorite Genre",
+    "readingJournal": "Reading Journal",
+    "journalMessage": "You read <bold>{count} books</bold> this year. Keep it up!",
+    "journalGoal": "{progress}/{goal} books of yearly goal",
+    "goalTitle": "Goal {year}",
+    "booksRemaining": "{count, plural, one {# book left} other {# books left}}",
+    "shelves": {
+      "reading": "Currently Reading",
+      "read": "Read",
+      "want": "Want to Read"
+    },
+    "emptyShelf": {
+      "title": "No books here yet",
+      "description": "Explore and add to your shelf.",
+      "explore": "Explore books"
+    },
+    "editProfile": {
+      "title": "Edit Profile",
+      "cancel": "Cancel",
+      "save": "Save",
+      "saved": "Saved!",
+      "changePhoto": "Tap to change photo",
+      "basicInfo": "Basic Information",
+      "name": "Name",
+      "namePlaceholder": "Your full name",
+      "username": "Username",
+      "usernamePlaceholder": "yourusername",
+      "location": "Location",
+      "locationPlaceholder": "City, State",
+      "bio": "Bio",
+      "bioPlaceholder": "Tell a little about yourself and your readings...",
+      "readingGoal": "Reading Goal",
+      "readingGoalPrompt": "How many books do you want to read in {year}?",
+      "books": "books",
+      "favoriteGenres": "Favorite Genres",
+      "selectedCount": "{count, plural, one {# selected} other {# selected}}",
+      "account": "Account",
+      "changePassword": "Change password",
+      "currentPassword": "Current password",
+      "newPassword": "New password",
+      "confirmNewPassword": "Confirm new password",
+      "updatePassword": "Save new password",
+      "passwordUpdated": "Password updated successfully!",
+      "notifications": "Notifications",
+      "privacy": "Privacy",
+      "logout": "Log out",
+      "deleteAccount": "Delete account",
+      "deleteAccountConfirm": "Are you sure you want to delete your account? This action cannot be undone.",
+      "confirmDelete": "Permanently delete"
+    }
+  }
+}

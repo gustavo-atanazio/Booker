@@ -32,10 +32,15 @@ export interface CreateUserDTO {
 }
 
 export interface UpdateUserDTO {
-  name: string;
-  username: string;
-  email: string;
+  name?: string;
+  username?: string;
+  email?: string;
   bio?: string;
-  role: UserRoleOption;
-  accountNonLocked: boolean;
+  role?: UserRoleOption;
+  accountNonLocked?: boolean;
+}
+
+export interface UpdatePasswordDTO {
+  currentPassword: string;
+  newPassword: string;
 }

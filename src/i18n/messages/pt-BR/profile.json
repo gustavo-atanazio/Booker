@@ -1,0 +1,73 @@
+{
+  "profile": {
+    "edit": "Editar",
+    "since": "Desde {date}",
+    "stats": {
+      "read": "Lidos",
+      "reading": "Lendo",
+      "wantToRead": "Quero Ler",
+      "avgRating": "Nota Média"
+    },
+    "tabs": {
+      "activity": "Atividade",
+      "books": "Livros"
+    },
+    "recentReviews": "Resenhas Recentes",
+    "reviewed": "avaliou",
+    "statistics": "Estatísticas",
+    "pagesRead": "Páginas Lidas",
+    "avgPages": "Média de Páginas",
+    "mostReadAuthor": "Autor Mais Lido",
+    "booksThisYear": "Livros Este Ano",
+    "favoriteGenre": "Gênero Favorito",
+    "readingJournal": "Diário de Leitura",
+    "journalMessage": "Você leu <bold>{count} livros</bold> este ano. Continue assim!",
+    "journalGoal": "{progress}/{goal} livros da meta anual",
+    "goalTitle": "Meta {year}",
+    "booksRemaining": "{count, plural, one {# livro restante} other {# livros restantes}}",
+    "shelves": {
+      "reading": "Lendo Agora",
+      "read": "Já Li",
+      "want": "Quero Ler"
+    },
+    "emptyShelf": {
+      "title": "Nenhum livro aqui ainda",
+      "description": "Explore e adicione à sua prateleira.",
+      "explore": "Explorar livros"
+    },
+    "editProfile": {
+      "title": "Editar Perfil",
+      "cancel": "Cancelar",
+      "save": "Salvar",
+      "saved": "Salvo!",
+      "changePhoto": "Toque para alterar a foto",
+      "basicInfo": "Informações Básicas",
+      "name": "Nome",
+      "namePlaceholder": "Seu nome completo",
+      "username": "Usuário",
+      "usernamePlaceholder": "seunome",
+      "location": "Localização",
+      "locationPlaceholder": "Cidade, Estado",
+      "bio": "Bio",
+      "bioPlaceholder": "Conte um pouco sobre você e suas leituras...",
+      "readingGoal": "Meta de Leitura",
+      "readingGoalPrompt": "Quantos livros você quer ler em {year}?",
+      "books": "livros",
+      "favoriteGenres": "Gêneros Favoritos",
+      "selectedCount": "{count, plural, one {# selecionado} other {# selecionados}}",
+      "account": "Conta",
+      "changePassword": "Alterar senha",
+      "currentPassword": "Senha atual",
+      "newPassword": "Nova senha",
+      "confirmNewPassword": "Confirmar nova senha",
+      "updatePassword": "Salvar nova senha",
+      "passwordUpdated": "Senha alterada com sucesso!",
+      "notifications": "Notificações",
+      "privacy": "Privacidade",
+      "logout": "Encerrar sessão",
+      "deleteAccount": "Excluir conta",
+      "deleteAccountConfirm": "Tem certeza que deseja excluir sua conta? Esta ação é irreversível.",
+      "confirmDelete": "Excluir definitivamente"
+    }
+  }
+}
