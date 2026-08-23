@@ -4,7 +4,7 @@ import type { BookSummary } from '@/types/Book';
 
 type Review = DefaultEntity & {
   score: number;
-  headline: string;
+  headline?: string | null;
   text: string;
   likeCount: number;
   user: User;
@@ -13,5 +13,18 @@ type Review = DefaultEntity & {
 
 type ReviewSummary = Pick<Review, 'id' | 'score' | 'headline' | 'text' | 'likeCount' | 'user' | 'createdAt' | 'updatedAt'>;
 
-export { ReviewSummary };
+interface CreateReviewDTO {
+  bookID: string;
+  score: number;
+  headline?: string;
+  text: string;
+}
+
+interface UpdateReviewDTO {
+  score?: number;
+  headline?: string;
+  text?: string;
+}
+
+export type { ReviewSummary, CreateReviewDTO, UpdateReviewDTO };
 export default Review;
