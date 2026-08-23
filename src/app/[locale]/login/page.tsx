@@ -46,7 +46,7 @@ function Login() {
               mode === 'register' ? 'bg-black text-white shadow-sm' : 'text-gray-500 hover:text-gray-700'
             }`}
           >
-            Criar Conta
+            Criar conta
           </button>
         </div>
 
@@ -125,7 +125,7 @@ function Login() {
             type='submit'
             className='bg-black hover:bg-gray-800 mt-2 py-3 rounded-xl w-full font-semibold text-white transition-colors'
           >
-            {mode === 'login' ? 'Entrar' : 'Criar Conta'}
+            {mode === 'login' ? 'Entrar' : 'Criar conta'}
           </button>
         </form>
 

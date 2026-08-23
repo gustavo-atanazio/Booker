@@ -1,14 +1,17 @@
-type Review = {
-  id: string;
-  name: string;
-  username: string;
-  initials: string;
-  color: string;
-  rating: number;
-  date: string;
+import type DefaultEntity from '@/types/DefaultEntity';
+import type User from '@/types/User';
+import type { BookSummary } from '@/types/Book';
+
+type Review = DefaultEntity & {
+  score: number;
+  headline: string;
   text: string;
-  likes: number;
-  replies: number;
+  likeCount: number;
+  user: User;
+  book: BookSummary;
 };
 
+type ReviewSummary = Pick<Review, 'id' | 'score' | 'headline' | 'text' | 'likeCount' | 'user' | 'createdAt' | 'updatedAt'>;
+
+export { ReviewSummary };
 export default Review;
